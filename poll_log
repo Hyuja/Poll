@@ -1,1 +1,14 @@
+Poll_pre 
+  ㄴ pollpjct : userapp, adminapp 구조 확립
+  ㄴ pollpjct2 : userapp, adminapp 로그인 기능 (django.contrib.auth 아니고 자체 구현한 간단한 로그인 기능) 
+
+reference
+  ㄴ 112269075.5.jpg : 투표 결과 지역별 시각화 예시 
+  ㄴ 선거인명부 서식.pdf : 선거인명부 DB 구성 예시 
+
+pollpjct1.pdf : 기획 단계 1차 스케치
+pollpjct2.pdf : 기획 단계 2차 스케치
+(* Diagram 막 그림, 악필, 무질서함 *)
+
+poll.pages : 기획 단계 메모 (오프라인으로 할지 온라인으로 할지 둘 차이, 공통점, 기능, etc)
 
