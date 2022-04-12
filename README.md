@@ -8,7 +8,6 @@
  - exceltoDB - *
  - CandidateEdit - *
  - pollresult
- 
  - userhome
  - userlogin
  - poll
