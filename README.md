@@ -4,15 +4,15 @@
  - userlogin
  - adminlogin
  - adminmenu
- - DBtoexcel
- - exceltoDB
- - CandidateEdit
+ - DBtoexcel - *
+ - exceltoDB - *
+ - CandidateEdit - *
  - pollresult
  
  - userhome
  - userlogin
  - poll
- - endpic
+ - endpic - * 
 
 TO DO 
  -
