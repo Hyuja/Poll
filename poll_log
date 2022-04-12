@@ -12,3 +12,11 @@ pollpjct2.pdf : 기획 단계 2차 스케치
 
 poll.pages : 기획 단계 메모 (오프라인으로 할지 온라인으로 할지 둘 차이, 공통점, 기능, etc)
 
+
+D1 2022/3/20~3/30 : 
+ㄴ 기획 (기능, 구조, etc (userapp, adminapp, pollpjct하고 함수 이름 정도))
+
+D2 2022/4/12 : 
+ㄴ userapp, adminapp 로그인
+    ㄴ userapp home.html : 
+
