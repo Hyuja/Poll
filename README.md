@@ -12,6 +12,7 @@
  - userhome
  - userlogin
  - poll
+ - endpic
 
 TO DO 
  -
