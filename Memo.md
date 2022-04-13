@@ -3,11 +3,11 @@
 구현할 메이저 페이지 이름 
  - adminlogin (template O, function X)  
  - adminmenu 
- - DBtoexcel - *
- - exceltoDB - *
- - CandidateEdit - *
- - pollresult 
- - userhome O
+ - 3 DBtoExcel - * (template O, function X)  
+ - 2 ExceltoDB - * (template O, function X)  
+ - 1 CandidateEdit - * (template O, function X)  
+ - 4 pollresult (template O, function X)  
+ - userhome O 
  - userlogin (template O, function X)  
  - poll 
  - endpic - * 
