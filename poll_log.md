@@ -51,4 +51,4 @@ poll.pages : 기획 단계 메모 (오프라인으로 할지 온라인으로 할
       return str(self.votername) + str(self.birth)
 ~~~
 에서 상속받은 클래스끼리 겹친게 있었는지 MRO 발생 <br/><br/>
-### D2 2022/4/13 : adminapp/model.py Candidate class, adminapp(admin X) 로그인 후 메뉴창 구현 (세부 메뉴는 뼈대만), 
+### D2 2022/4/13 : adminapp/model.py Candidate class, adminapp(admin X) 로그인 후 메뉴창 구현 (세부 메뉴는 뼈대만), class useraccount, Excel 예시 만들기,
