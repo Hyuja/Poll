@@ -9,6 +9,9 @@ urlpatterns = [
     path('', usv.home, name ="home"),
     path('signin/', usv.userlogin, name = "userlogin"), 
     path('adminaccess/', adv.adminloigin, name = "adminlogin"),
-    path('adminaccess/menu', adv.menu, name = "menu")
-    
+    path('adminaccess/menu', adv.menu, name = "menu"),
+    path('adminaccesss/CandidateEdit', adv.CandidateEdit, name = "CandidateEdit"),
+    path('adminaccess/ExceltoDB', adv.ExceltoDB, name = "ExceltoDB"),
+    path('adminaccess/DBtoExcel', adv.DBtoExcel, name = "DBtoExcel"),
+    path('adminaccess/PollResult', adv.PollResult, name = "PollResult"),
 ]

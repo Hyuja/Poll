@@ -1,20 +1,26 @@
-# from django.db import models
-# from django.contrib.auth.models import AbstractBaseUser
+from django.db import models
+from django.contrib.auth.models import AbstractBaseUser
 
-# class useraccount (models.Model, AbstractBaseUser):
-#     votername = models.CharField(max_length = 20)
-#     sex = models.CharField(max_length = 1)
-#     birth = models.DateField()
-#     address = models.CharField(max_length = 100)
-#     votesn = models.CharField(max_length = 12)
-#     ifvoted = models.BooleanField(default = False)
-#     voteresult = models.CharField(max_length = 1, default = "0")
-#     etc = models.TextField(null = True, blank = True)
+class useraccount (AbstractBaseUser):
+    votername = models.CharField(max_length = 20)
+    sex = models.CharField(max_length = 1)
+    birth = models.DateField()
+    address = models.CharField(max_length = 100)
+    password = models.CharField(max_length = 12)
+    ifvoted = models.BooleanField(default = False)
+    voteresult = models.CharField(max_length = 1, default = "0")
+    etc = models.TextField(null = True, blank = True)
+    is_active = models.BooleanField(default = False)
+    is_admin = models.BooleanField(default = False)
+
+    USERNAME_FIELD = 'votername'
+    REQIRED_FIELDS = ['votername', 'sex', 'birth', 'address', 'votesn']     #로그인창에서 받는 요소들 
+
+    def __str__(self):
+        if (self.ifvoted == True): iv = "O"
+        else: iv = "X"
+        return str(self.votername) +" / "+ str(self.birth)+" / "+ str(iv)   #이성준 2004-05-21, 동명이인 구분
+
+
+
     
-
-
-#     def __str__(self):
-#         return str(self.votername) + str(self.birth)
-
-
-        
