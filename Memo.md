@@ -2,7 +2,8 @@
 
 구현할 메이저 페이지 이름 
  - adminlogin (template O, function X)  
- - adminmenu 
+ - adminsignup 
+ - adminmenu O (근데 디자인이 안이쁨)
  - 3 DBtoExcel - * (template O, function X)  
  - 2 ExceltoDB - * (template O, function X)  
  - 1 CandidateEdit - * (template O, function X)  
