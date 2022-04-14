@@ -42,11 +42,12 @@
   <body class="text-center">
     
 <main class="form-signin">
-  <form method = "POST" action = "{% url 'userloginprocess'%}">
+  <form method = "POST" action = "{% url 'loginprocess'%}">
+    {% csrf_token %}
     <h1 class="h3 mb-3 fw-normal">Sign in</h1>
 
     <div class="form-floating">
-      <input type="text" class="form-control" id="floatingInput" placeholder="이름">
+      <input type="text" class="form-control" id="floatingInput" name = "votername" placeholder="이름">
       <label for="floatingInput">이름</label>
     </div>
     <!-- ================================================== -->
@@ -54,7 +55,7 @@
       <label><input type="radio" name="sex" value="f" > 여</label>
     <!-- ================================================== -->
     <div class="form-floating">
-      <input type="date" class="form-control" id="floatingInput" placeholder="생년월일">
+      <input type="date" class="form-control" id="floatingInput" name = "birth" placeholder="생년월일">
       <label for="floatingInput">생년월일</label>
     </div>
     <!-- ================================================== -->
