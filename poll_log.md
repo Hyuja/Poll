@@ -119,3 +119,6 @@ def CandidateEdit_editprocess (request, kid):
     editCandidate.save()
     return redirect ('CandidateEdit', editCandidate.id)
 ~~~~
+<br/><br/>
+### D5 2022/04/15 poll 구현 (로그인 확인 아직 X), <br/><br/>
+- 투표하면 userapp/models.py <code> user.ifvoted = True, </code> : 중복투표 방지, <code>user.voteresult</code> : 통계, 시각화에서 편리하도록, <code>Candidate.votes = Candidate.votes + 1</code> 한표씩 추가, 개표는 여기서 
