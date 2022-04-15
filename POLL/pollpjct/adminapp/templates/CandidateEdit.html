@@ -4,9 +4,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Candidate Edit</title>
 </head>
 <body>
-    daojiugjfhbksdnljhbmnlkj
+    <br><br><br><br><br><br>
+    <!-- ===================================================== -->
+    <form method = "POST" action = "{%url 'CandidateEdit_add'%}">
+        {% csrf_token %}
+        <div align = "middle">
+            ADD<br><br>
+            <input type="text" name = "CandidateNum" placeholder="기호"><br><br>
+            <input type="text" name = "side" placeholder="소속 정당"><br><br>
+            <input type="text" name = "CandidateName" placeholder="후보 이름"><br><br>
+            <button type = "submit">save</button>
+        </div>
+    </form>
+    <br><br><br><br><br><br>
+    <!-- ===================================================== -->
+        
+    <div align = "middle" >
+        {% for Candidate in Candidates%}
+            <div>        
+                <h3>{{Candidate.CandidateNum}} | {{Candidate.side}} | {{Candidate.CandidateName}}</h3>
+                <a href = "{%url 'CandidateEdit_edit' Candidate.id %}">edit</a>
+            </div>
+        {% endfor %}
+    </div>
+        
 </body>
 </html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDIT</title>
+</head>
+<body>
+    <div align = "middle">
+        <h1>Candidate Edit</h1>
+        <form  method="POST" action="{%url 'CandidateEdit_editprocess' Candidate.id %}">
+            {% csrf_token %}
+            <p>기호 : <input type="text" name= "CandidateNum" value = "{{Candidate.CandidateNum}}"></p>
+            <p>정당 : <input type="text" name= "side" value = "{{Candidate.side}}"></p>
+            <p>후보명 : <input type = "text" name= "CandidateName" value = "{{Candidate.CandidateName}}"></p>
+            <button type="submit">SAVE {{Candidate.id}}</button>
+            <br><br>
+        </form>
+
+        <form method = "POST" action = "{%url 'CandidateEdit_delete' Candidate.id %}">
+            {% csrf_token %}
+            <button type = "submit">DELETE</button>
+        </form>
+    </div>
+</body>
+</html>
