@@ -6,7 +6,7 @@
  - adminmenu O (근데 디자인이 안이쁨)
  - 3 DBtoExcel - * (template O, function X)  
  - 2 ExceltoDB - * (template O, function X)  
- - 1 CandidateEdit - * (template O, function X)  
+ - 1 CandidateEdit - * (template O, function X)  / CandidateEdit 까지는 기능도 O, CandidateEdit_delete, CandidateEdit_edit에서 id 전송에 문제가 있는듯...
  - 4 pollresult (template O, function X)  
  - userhome O 
  - userlogin (template O, function X)  
@@ -22,5 +22,6 @@ TO DO
  - custom user model 
  - 로그인 기능 
  - excel 예시 
+ - CandidateEdit.html https://getbootstrap.com/docs/5.1/examples/grid/ 로 바꾸기 
 
  
