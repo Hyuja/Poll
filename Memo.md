@@ -23,4 +23,4 @@ TO DO
  - 로그인 기능 
  - excel 예시 
  - CandidateEdit.html https://getbootstrap.com/docs/5.1/examples/grid/ 로 바꾸기 
- - admin login api -> ExcelDB -> user login api -> model comparison -> poll -> visualization  
+ - admin login api -> ExcelDB -> user login api -> model comparison -> poll -> endpic -> visualization 
