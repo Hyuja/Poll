@@ -9,7 +9,7 @@
 <body>
     <div align = "middle">
         <h1>Candidate Edit</h1>
-        <form  method="POST" action="{%url 'CandidateEdit_editprocess' Candidate.id %}">
+        <form  method="POST" action="{%url 'update' Candidate.id%}">
             {% csrf_token %}
             <p>기호 : <input type="text" name= "CandidateNum" value = "{{Candidate.CandidateNum}}"></p>
             <p>정당 : <input type="text" name= "side" value = "{{Candidate.side}}"></p>
@@ -18,7 +18,7 @@
             <br><br>
         </form>
 
-        <form method = "POST" action = "{%url 'CandidateEdit_delete' Candidate.id %}">
+        <form action = "{%url 'delete' Candidate.id %}">
             {% csrf_token %}
             <button type = "submit">DELETE</button>
         </form>

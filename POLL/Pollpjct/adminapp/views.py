@@ -29,8 +29,8 @@ def CandidateEdit_edit (request, id):
     toeditCandidate = Candidate.objects.get(id = id)
     return render(request, 'CandidateEdit_edit.html', {'toeditCandidate' : toeditCandidate})
 
-def CandidateEdit_editprocess (request, kid):
-    editCandidate = Candidate.objects.get(id = kid)
+def CandidateEdit_editprocess (request, id):
+    editCandidate = Candidate.objects.get(id = id)
     editCandidate.CandidateNum = request.POST['CandidateNum']
     editCandidate.side = request.POST['side']
     editCandidate.CandidateName = request.POST['CandidateName']
