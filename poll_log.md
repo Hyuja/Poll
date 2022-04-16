@@ -120,5 +120,49 @@ def CandidateEdit_editprocess (request, kid):
     return redirect ('CandidateEdit', editCandidate.id)
 ~~~~
 <br/><br/>
-### D5 2022/04/15 poll 구현 (로그인 확인 아직 X), <br/><br/>
-- 투표하면 userapp/models.py <code> user.ifvoted = True, </code> : 중복투표 방지, <code>user.voteresult</code> : 통계, 시각화에서 편리하도록, <code>Candidate.votes = Candidate.votes + 1</code> 한표씩 추가, 개표는 여기서 
+### D5 2022/04/15 poll 구현 (로그인 확인 아직 X), 로그인 방식, 선거인명부 생성 접근 계획 수정 <br/><br/>
+- 투표하면 <code></code> userapp/models.py <code> user.ifvoted = True, </code> : 중복투표 방지, <code>user.voteresult</code> : 통계, 시각화에서 편리하도록, <code>Candidate.votes = Candidate.votes + 1</code> 한표씩 추가, 개표는 여기서<br/><br/>
+- 로그인 깔짝대다가 실패<br/><br/>
+- poll.html에서 후보 수만큼 행, 라디오 버튼 만드려고 했으나 라디오 버튼 밸류 값이 for문에서 제대로 할당되지 않아 실패. 온클릭을 잘 쌈싸먹으면 될 것 같기도 
+poll.html <br/>
+<img width="900" alt="Screen Shot 2022-04-17 at 6 00 37" src="https://user-images.githubusercontent.com/96364048/163691243-715e1d70-5b9f-40e6-a5a0-d1158043f12a.png">
+<br/><br/>
+poll.html <br/>
+~~~html
+<body class="py-4">
+<main>
+<div align = "middle">
+    <br><br><br>
+  <h1 class="mt-4">POLL</h2>
+</div>
+  <div class="container">
+  <form id="test" method = "POST" action = "{% url 'pollprocess' Candidates %}"></form>
+    {%csrf_token%}
+  <br>
+    {% for Candidate in Candidates %}
+        <div class="row row-cols-1 row-cols-md-3 gx-4" class="row row-cols-md-3 mb-3" >
+        <div class="col themed-grid-col" align = "middle">{{Candidate.CandidateNum}}</div>
+        <div class="col themed-grid-col" align = "middle">{{Candidate.side}}</div>
+        <div class="col themed-grid-col" align = "middle">{{Candidate.CandidateName}}</div>
+        <div class="form-check">
+        <input class="form-check-input" type= "radio" onclick = "" value = "{{Candidate.id}}" name= "Candidate.id" id="flexRadioDefault1">
+        <label class="form-check-label" for="flexRadioDefault1"></label>
+        </div>
+        </div>
+    {% endfor %}
+    <!-- <button form="test" type="submit" class="btn btn-primary btn-lg">Submit</button> -->
+    <input type="submit" value="submit">
+  </div>
+</form>
+</main>
+</body>
+~~~
+- 카카오 로그인 기능 구현 거의 다 됐으나 <br/>
+| KOE006 | 등록되지 않은 Redirect URI를 인가 코드 요청에 사용한 경우 | 	[내 애플리케이션] > [카카오 로그인]에서 Redirect URI를 새로 등록하거나,
+이미 등록된 Redirect URI를 인가 코드 요청 파라미터 redirect_uri 값으로 사용합니다. |
+에러가 발생 kakao.developer 페이지와 views.py에 둘다 같은 링크까지 걸어줬지만 여전히 같은 오류가 떠서 다 지움 (+정작 원하던 성별, 이름, 전화번호 등 본인인증에 유의미한 자료들은 동의 있어도 받기 어렵게 되어있었음) <br/><br/>
+
+### D6 2022/04/17 : 
+
+
+
