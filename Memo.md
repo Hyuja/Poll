@@ -4,9 +4,6 @@
  - adminlogin (template O, function X)  
  - adminsignup 
  - adminmenu O (근데 디자인이 안이쁨)
- - 3 DBtoExcel - * (template O, function X)  
- - 2 ExceltoDB - * (template O, function X)  
- - 1 CandidateEdit - * (template O, function X)  / CandidateEdit 까지는 기능도 O, CandidateEdit_delete, CandidateEdit_edit에서 id 전송에 문제가 있는듯...
  - 4 pollresult (template O, function X)  
  - userhome O 
  - userlogin (template O, function X)  
@@ -24,3 +21,9 @@ TO DO
  - excel 예시 
  - CandidateEdit.html https://getbootstrap.com/docs/5.1/examples/grid/ 로 바꾸기 
  - admin login api -> ExcelDB -> user login api -> model comparison -> poll -> endpic -> visualization 
+ - admin 커스텀 가능한지 
+ 
+TO DO NOW
+ - 코드 무덤 만들기
+ - adminapp/templates/menu 'useraccount_verify' url 연결 
+ - adminapp/views.py useraccountverify 관련 매서드 구현 (겹치는거 보여주고 뭐 지울지 선택하도록 지워야 할게 존나 많을 수도 있으니까 비슷한 것끼리 분류해서 뭐지울지 선택 
