@@ -40,15 +40,14 @@
   </head>
 <!-- ====================================================   -->
 <body class="py-4">
-    
 <main>
-<form method = "POST" action = "{% url 'pollprocess' Candidate.id%}">
-{%csrf_token%}
 <div align = "middle">
     <br><br><br>
   <h1 class="mt-4">POLL</h2>
 </div>
   <div class="container">
+  <form id="test" method = "POST" action = "{% url 'pollprocess' Candidates %}"></form>
+    {%csrf_token%}
   <br>
     {% for Candidate in Candidates %}
         <div class="row row-cols-1 row-cols-md-3 gx-4" class="row row-cols-md-3 mb-3" >
@@ -56,15 +55,14 @@
         <div class="col themed-grid-col" align = "middle">{{Candidate.side}}</div>
         <div class="col themed-grid-col" align = "middle">{{Candidate.CandidateName}}</div>
         <div class="form-check">
-        <input class="form-check-input" type= "radio" value = {{Candidate.id}} id="flexRadioDefault1">{{Candidate.id}}
-        <label class="form-check-label" for="flexRadioDefault1">
-            
-        </label>
+        <input class="form-check-input" type= "radio" onclick = "" value = "{{Candidate.id}}" name= "Candidate.id" id="flexRadioDefault1">
+        <label class="form-check-label" for="flexRadioDefault1"></label>
         </div>
         </div>
     {% endfor %}
+    <!-- <button form="test" type="submit" class="btn btn-primary btn-lg">Submit</button> -->
+    <input type="submit" value="submit">
   </div>
-<button type="submit" class="btn btn-primary btn-lg">Submit</button>
 </form>
 </main>
 </body>
