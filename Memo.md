@@ -1,7 +1,7 @@
 # Poll
 
 구현할 메이저 페이지 이름 
- - adminlogin (template O, function X)  
+ - adminlogin (template X, function X)  
  - adminsignup 
  - adminmenu O (근데 디자인이 안이쁨)
  - 4 pollresult (template O, function X)  
