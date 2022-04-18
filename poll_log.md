@@ -193,6 +193,8 @@ poll.html
 ## D6 2022/04/16 : ExceltoDB, DBtoExcel 기능 구현, 어드민 구조 변경
  * 기존 계획에서는 admin 따로 adminaccess 따로 사용하려고 했으나 django admin창에서 너무도 쉽게 csv 파일을 DB로 import, export 할 수 있는 방법이 있어 어드민 구조 자체를 변경 <br/><br/>
  * 원래는 배포 또는 개조해서 사용 할 때는 admin이 아닌 adminaccess/ 링크로 따로 관리하려 했으나 csv 파일 import, export 뿐만 아니라 선거인 명부, 후보 수정에서 훨씬 편리 할 것 같아 adminaccess 전체 삭제 <br/><br/>
+
+userapp/admin.py 
 ~~~python 
 from django.contrib import admin
 from .models import Candidate
@@ -221,6 +223,44 @@ export
 
 ## D7 2022/04/17 : Excel <-> DB 엑셀 문제 해결
 * 엑셀 파일에서 입력한 날짜 포맷이 안맞았음 20xx.xx.xx -> 20xx-xx-xx/ 엑셀 파일 저장 방식 중에 xlsx 등은 지원이 중단됨 (보안이슈라나?) / xls로 했는데 모르는 에러가 나옴 / csv로 했더니 됨 / import했던 파일 다시  import하니 같은 명부가 두번 올라감 (id만 다르고 다 같음) (근데 이러면 투표 두번한다던지 맞는 정보를 입력했는데도 multivalue로 로그인이 안되던지 하는 상황이 발생 가능)<br/><br/>
-* DB 저장할떄 컨트롤 하고 싶어서 찾아보는중
+* DB 저장할떄 컨트롤 하고 싶어서 찾아보는중<br/><br/>
+* ForeignKey, Admin 커스텀 공부하느라 얼마 못함 ㅠ<br/><br/>
 
-## D8 2022/04/18 : Django Admin 커스텀, 한번 실행해서 두번 이상의 투표하기 위해 foreign 
+* * * * 
+
+<br/>
+
+## D8 2022/04/18 : Django Admin 커스텀, poll - Candidates ont-to-many로 재구성 
+* 기존 구조는 투표 케이스는 무조건 하나로 제안되어 한번의 실행에서 한번의 투표만 가능하도록 되어있었음, Poll_Cases를 ForeignKey로 지정해서 one to many의 방식으로 구성 <br/><br/>
+
+adminapp/models.py
+~~~python 
+from pyexpat import model
+from django.db import models
+from datetime import datetime
+from django.utils import timezone
+
+
+class Poll_Cases(models.Model):
+    poll_Case_Num = models.CharField(max_length = 3)
+    pub_date = models.DateTimeField('date published')
+    poll_name = models.CharField(max_length = 100, null = True, blank = True, default = "-1")
+
+    def __str__(self):
+        return str(self.poll_Case_Num) + (" | ") + str(self.poll_name)
+
+class Candidate(models.Model):
+    Poll_Case_id = models.ForeignKey(Poll_Cases, on_delete = models.DO_NOTHING)
+    #PROTECT : votes가 바라보고 있는 ForeignKeyField가 삭제되면 해당 요소가 같이 삭제되지 않도록 protected error를 발생시킨다 
+    CandidateNum = models.CharField (max_length = 3)
+    side = models.CharField(max_length = 50)
+    CandidateName = models.CharField(max_length = 20)
+    votes = models.IntegerField(null = True, blank = True, default = 0)
+
+    def __str__(self):
+        return str(self.CandidateNum) + (" | ") + str(self.side) + (" | ") + str(self.CandidateName) 
+~~~
+
+<br/>
+<img width="1100" alt="Screen Shot 2022-04-19 at 8 31 43" src="https://user-images.githubusercontent.com/96364048/163892895-e39859b5-d06b-4cd6-8218-d965212e55cc.png">
+
