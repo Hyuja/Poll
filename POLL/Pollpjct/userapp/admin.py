@@ -4,7 +4,7 @@ from import_export.admin import ImportExportModelAdmin
 
 
 @admin.register(useraccount)
-class userdata(ImportExportModelAdmin):
-    list_display = ['name', 'sex', 'birth', 'address', 'password', 'etc', 'ifvoted', 'voteresult']
+class useraccountAdmin(ImportExportModelAdmin):
+    list_display = ['name', 'sex', 'birth', 'address', 'password', 'etc', 'ifvoted', 'voteresult', 'pub_date', 'id']
     
 

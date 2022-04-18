@@ -3,5 +3,7 @@ from .models import Candidate
 from userapp.models import useraccount
 
 # Register your models here
-admin.site.register(Candidate)
 
+@admin.register(Candidate)
+class CandidateAdmin(admin.ModelAdmin):
+    list_display = ['CandidateNum', 'side', 'CandidateName', 'id']

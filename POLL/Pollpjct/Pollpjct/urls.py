@@ -5,7 +5,7 @@ from userapp import views as usv
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name = "admin"),
 
     path('', usv.home, name ="home"),       #버튼 누르면 로그인으로 가는 페이지
     path('signin/', usv.userlogin, name = "userlogin"),     #Template O / 위에서 버튼 눌렀을떄 가는 페이지
