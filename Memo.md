@@ -24,6 +24,3 @@ TO DO
  - admin 커스텀 가능한지 
  
 TO DO NOW
- - 코드 무덤 만들기
- - adminapp/templates/menu 'useraccount_verify' url 연결 
- - adminapp/views.py useraccountverify 관련 매서드 구현 (겹치는거 보여주고 뭐 지울지 선택하도록 지워야 할게 존나 많을 수도 있으니까 비슷한 것끼리 분류해서 뭐지울지 선택, 뭐 다른지 하이라이트 
