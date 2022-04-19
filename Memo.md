@@ -15,9 +15,8 @@
 TO DO  
  - admin login api -> ExcelDB -> user login api -> model comparison -> poll -> endpic -> visualization 
  - 로그인 API
-
+ - userapp/poll.html for문 수정 
 TO DO TODAY
  - excel DB로 import할 떄 pub_date
- - PollCase ForeignKey 
  - DB 추가하면서 중복은 스킵또는 수정, 공백제거 
- - admin custom
+ - admin창 title 수정 
