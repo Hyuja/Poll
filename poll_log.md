@@ -264,3 +264,7 @@ class Candidate(models.Model):
 <br/>
 <img width="1100" alt="Screen Shot 2022-04-19 at 8 31 43" src="https://user-images.githubusercontent.com/96364048/163892895-e39859b5-d06b-4cd6-8218-d965212e55cc.png">
 
+* 투표 수정하는 창에서 후보 추가할 수 있도록 <br/>
+
+<img width="1100" alt="Screen Shot 2022-04-19 at 9 57 14" src="https://user-images.githubusercontent.com/96364048/163899421-2471ca23-9877-4212-9ce4-846fd7c750d3.png">
+
