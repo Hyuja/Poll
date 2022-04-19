@@ -1,9 +1,27 @@
 from django.contrib import admin
-from .models import Candidate
-from userapp.models import useraccount
+from .models import *
+from userapp.models import *
 
-# Register your models here
+
+# @admin.register(Poll_Cases)
+# class Poll_CasesAdmin(admin.ModelAdmin):
+#     list_display = ['poll_Case_Num', 'poll_name', 'pub_date', 'id']     
 
 @admin.register(Candidate)
 class CandidateAdmin(admin.ModelAdmin):
-    list_display = ['CandidateNum', 'side', 'CandidateName', 'id']
+    list_display = ['Poll_Case_id', 'CandidateNum', 'side', 'CandidateName', 'votes', 'id']
+
+class CandidateInline(admin.TabularInline):
+    model = Candidate
+    extra = 1
+
+class Poll_CasesAdmin(admin.ModelAdmin):
+    list_display = ['poll_case_num', 'poll_name', 'poll_status', 'id']     
+    fieldsets = [
+        (None, {'fields': ['poll_case_num']}), 
+        (None, {'fields' : ['poll_name']}), 
+        #('Date information', {'fields' : ['pub_date']})
+        ]
+    inlines = [CandidateInline]
+
+admin.site.register(Poll_Cases, Poll_CasesAdmin)
