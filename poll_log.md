@@ -268,3 +268,24 @@ class Candidate(models.Model):
 
 <img width="1100" alt="Screen Shot 2022-04-19 at 9 57 14" src="https://user-images.githubusercontent.com/96364048/163899421-2471ca23-9877-4212-9ce4-846fd7c750d3.png">
 
+<br/>
+
+* * * *
+
+<br/>
+
+## D9 2022/04/19 : pub_date, db 저장할떄 공백제거, 중복제거 하려고 했으나 실패 
+* models.py 에서 바로 __init__으로 공백제거, 중복 컨트롤 하고 싶었는데 실패함<br/><br/>
+* admin 창에서 db 만드는게 아니라 import 해오는 거라서 pub_date도 안됨 : excel에서 default값 입력하기도 어려움 <br/><br/>
+* 둘 다 필수적인 요소라 꼭 넣을거임
+
+<br/>
+
+* * * * 
+
+<br/>
+
+## D10 2020/04/20 : allauth google login api, 만들어놨던 템플릿, 함수에 로그인 기능 더하기, logineduseraccount model만들기 
+* allauth google 로그인. 일단 하긴 했는데 버튼 누르면 바로 구글 화면으로 넘어갔으면 하는데 allauth 로그인 화면 한번 거쳐서 가서 수정해줘야될듯, 로그아웃 버튼도 <br/><br/>
+* base.html에 footer 넣어서 밑에서 계정 정보, 어드민 여부 (어드민이면 어드민 페이지로 넘어가는 버튼), 오류 신고 같은 버튼 만듦 <br/><br/>
+* logineduseraccount 
