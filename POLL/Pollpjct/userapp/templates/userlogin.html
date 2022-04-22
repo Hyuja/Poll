@@ -9,9 +9,9 @@
 
   {% block content %}
   {% load static %}
-      
+    {% if user.is_authenticated %}
       <main class="form-signin">
-        <form method = "POST" action = "{% url 'userlogin_process' user.id %}"> 
+        <form method = "POST" action = "{% url 'poll' user.id %}"> 
           {% csrf_token %}
 
           <h1 class="h3 mb-3 fw-normal">Sign in</h1>
@@ -42,4 +42,11 @@
           <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
         </form>
       </main>
+    {% endif %}
+    {% if user.is_anonymous %}
+      <div align = "middle">
+        <br><br><br><br><br>
+        Please Login to access this page
+      </div>
+    {% endif %}
   {% endblock %}

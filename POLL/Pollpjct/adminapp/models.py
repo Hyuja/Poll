@@ -7,7 +7,7 @@ from django.db import models
 class Poll_Cases(models.Model):
     poll_case_num = models.CharField(max_length = 3)
     # pub_date = models.DateTimeField('date published')
-    poll_name = models.CharField(max_length = 100, null = True, blank = True, default = "-1")
+    poll_name = models.CharField(max_length = 100, null = True, blank = True, default = "")
     poll_status = models.BooleanField(null = True, blank = True, default = True)
     
     def __str__(self):

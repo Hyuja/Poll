@@ -8,29 +8,50 @@
 {% endblock %}
 
 {% block content %}
-<main class = "py-4">
-<div align = "middle">
-    <br><br><br>
-  <h1 class="mt-4">POLL</h2>
-</div>
-  <div class="container">
-  <form id="test" method = "POST" action = "{% url 'pollprocess' Candidates %}"></form>
-    {%csrf_token%}
-  <br>
-    {% for Candidate in Candidates %}
-        <div class="row row-cols-1 row-cols-md-3 gx-4" class="row row-cols-md-3 mb-3" >
-        <div class="col themed-grid-col" align = "middle">{{Candidate.CandidateNum}}</div>
-        <div class="col themed-grid-col" align = "middle">{{Candidate.side}}</div>
-        <div class="col themed-grid-col" align = "middle">{{Candidate.CandidateName}}</div>
-        <div class="form-check">
-        <input class="form-check-input" type= "radio" onclick = "" value = "{{Candidate.id}}" name= "Candidate.id" id="flexRadioDefault1">
-        <label class="form-check-label" for="flexRadioDefault1"></label>
-        </div>
-        </div>
-    {% endfor %}
-    <!-- <button form="test" type="submit" class="btn btn-primary btn-lg">Submit</button> -->
-    <input type="submit" value="submit">
+<main class = "py-4"><br><br>
+
+{% if user.is_authenticated and searchuser.ifvoted == False %}
+  <div align = "middle">
+      
+    
+      {% for POLL_CASE in POLL_CASES %}
+        <h1 class="mt-4">{{POLL_CASE.poll_name}}</h2><br><br>
+        <form method = "POST" action = "{% url 'pollprocess'%}">
+        {% csrf_token %}
+         
+          {% for Candidate in Candidates %} 
+            <div class="row row-cols-1 row-cols-md-3 gx-4">
+              <div class="col themed-grid-col">{{Candidate.CandidateNum}}  </div>
+              <div class="col themed-grid-col">{{Candidate.side}}</div>
+              <div class="col themed-grid-col">{{Candidate.CandidateName}}</div>
+            </div>  
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name= "checked" id="{{Candidate.id}}" value = "{{Candidate.id}}">
+              <label class="form-check-label" for="flexRadioDefault1">
+              </label>
+            </div>
+          {% endfor %}
+        <button type="button" class="btn btn-primary btn-lg">Submit</button>
+        </form>
+      {% endfor %}
   </div>
-</form>
+{% endif %}
+
+
+
+
+
+{% if user.is_authenticated and searchuser.ifvoted == True %}
+  <div align = "middle">
+    Already voted!
+  </div>  
+{% endif %}
+
+{% if user.is_anonymous %}
+  <div align = "middle">
+    Please Login to access this page
+  </div>
+{% endif %}
+
 </main>
 {% endblock %}

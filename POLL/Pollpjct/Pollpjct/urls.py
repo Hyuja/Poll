@@ -8,10 +8,9 @@ urlpatterns = [
 
     path('', usv.home, name ="home"),       #버튼 누르면 로그인으로 가는 페이지
     path('signin/', usv.userlogin, name = "userlogin"),     #Template O / 위에서 버튼 눌렀을떄 가는 페이지
-    path('signinprocess/<str:id>', usv.userlogin_process, name = "userlogin_process"),
+    path('poll/user=<str:id>', usv.userlogin_process, name = "poll"),
     path('wrong', usv.wrong, name = "wrong"),       #Template O /로그인 실패하면 가는 페이지
-    path('poll/', usv.poll, name = "poll"),     #Template O /투표하는 페이지
-    path('pollprocess/<str:id>', usv.pollprocess, name = "pollprocess"),        #Template X, Redirect 'end'/ 투표 로직 
+    path('pollprocess/', usv.pollprocess, name = "pollprocess"),        #Template X, Redirect 'end'/ 투표 로직 
     path('end/', usv.end, name = "end"),        #사진까지 다 찍고 투표 끝났을떄 
 
     path('adminaccess/', adv.adminloigin, name = "adminlogin"),     #Template O /어드민 홈 페이지, 어드민은 로그인부터 

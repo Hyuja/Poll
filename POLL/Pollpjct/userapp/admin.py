@@ -8,7 +8,7 @@ from import_export.admin import ImportExportModelAdmin
 
 @admin.register(useraccount)
 class useraccountAdmin(ImportExportModelAdmin):
-    list_display = ['name', 'sex', 'birth', 'address', 'password', 'etc', 'ifvoted', 'voteresult', 'pub_date', 'id']
+    list_display = ['poll_case', 'name', 'sex', 'birth', 'address', 'password', 'etc', 'ifvoted', 'voteresult', 'id']
     
 @admin.register(logineduseraccount)
 class logineduseraccountAdmin(admin.ModelAdmin):

@@ -134,6 +134,8 @@ USE_TZ = True
 
 LOGIN_URL = '/signin/'
 
+ACCOUNT_LOGOUT_ON_GET = True
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
