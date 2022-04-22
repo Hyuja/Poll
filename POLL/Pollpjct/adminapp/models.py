@@ -9,7 +9,7 @@ class Poll_Cases(models.Model):
     # pub_date = models.DateTimeField('date published')
     poll_name = models.CharField(max_length = 100, null = True, blank = True, default = "")
     poll_status = models.BooleanField(null = True, blank = True, default = True)
-    
+    take_endpic = models.BooleanField(default = False)
     def __str__(self):
         return str(self.poll_case_num) + (" | ") + str(self.poll_name)
 

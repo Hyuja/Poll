@@ -4,6 +4,8 @@ from .models import *
 from django.contrib.auth.models import User as BasicUser
 from django.contrib import messages
 
+##request.user.is_authenticated
+
 def home(request):
     return render(request, "home.html")
 
@@ -49,7 +51,7 @@ def userlogin_process (request, id):        #id = BasicUser.id
 def wrong (request):
     return render (request, "wrong.html")
 
-def pollprocess(request):       
+def pollprocess(request):    
     return redirect ('end')
 
 def end (request):

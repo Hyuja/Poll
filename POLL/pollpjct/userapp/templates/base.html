@@ -43,8 +43,8 @@
 <div class="container" id = "wrapper">
   <footer class="py-3 my-4">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-      <form action = "{% url 'home' %}">
-        <button type="submit" class="btn btn-outline-secondary">go to Home</button>
+      <form action = "{% url 'admin:index' %}">
+        <button type="submit" class="btn btn-outline-secondary">go to Admin</button>
       </form>
       {% if user.is_anoymous %}
         Not Logined 
@@ -62,8 +62,7 @@
           {% endif %}
           <button class="btn btn-outline-secondary" type="submit">Sign out</button>
         </form>
-        {% if user.is_staff %}
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Username : {{user.username}}</a></li>
+        {% if user.is_staff %}<li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Username : {{user.username}}</a></li>
         <form action = "{% url 'admin:index' %}">
           <button type="submit" class="btn btn-outline-secondary">go to Admin</button>
         </form>
