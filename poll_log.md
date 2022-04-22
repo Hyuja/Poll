@@ -285,9 +285,18 @@ class Candidate(models.Model):
 
 <br/>
 
-## D10 2020/04/20 : allauth google login api, 만들어놨던 템플릿, 함수에 로그인 기능 더하기, logineduseraccount model만들기 
+## D10 2022/04/20 : allauth google login api, 만들어놨던 템플릿, 함수에 로그인 기능 더하기, logineduseraccount model만들기 
 * allauth google 로그인. 일단 하긴 했는데 버튼 누르면 바로 구글 화면으로 넘어갔으면 하는데 allauth 로그인 화면 한번 거쳐서 가서 수정해줘야될듯, 로그아웃 버튼도. <br/><br/>
 <img width="1100" alt="Screen Shot 2022-04-21 at 17 51 07" src="https://user-images.githubusercontent.com/96364048/164417894-19ef714c-0dc4-4449-8200-98c8f8e22917.png">
 
 * base.html에 footer 넣어서 밑에서 계정 정보, 어드민 여부 (어드민이면 어드민 페이지로 넘어가는 버튼), 오류 신고 같은 버튼 만듦 <br/><br/>
 * logineduseraccount 
+
+<br/>
+
+* * * * 
+
+<br/>
+
+## D11 2022/04/21 : 소셜로그인하고 정보입력하는 메서드 구현하고 이것저것 다 <br/>
+
