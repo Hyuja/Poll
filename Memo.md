@@ -14,9 +14,11 @@
 
 TO DO  
  - admin login api -> ExcelDB -> user login api -> model comparison -> poll -> endpic -> visualization 
- - 로그인 API
+ - 로그인 API 
  - userapp/poll.html for문 수정 
  - unique constraint 
+ - https://geeksforgeeks.org/securing-django-admin-login-with-otp-2-factor-authentication/ or django admin two-factor login검색 
+ - 
 
 TO DO TODAY
  - DB 추가하면서 중복은 스킵또는 수정, 공백제거 
