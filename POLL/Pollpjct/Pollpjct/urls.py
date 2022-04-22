@@ -9,7 +9,7 @@ urlpatterns = [
     path('', usv.home, name ="home"),       #버튼 누르면 로그인으로 가는 페이지
     path('signin/', usv.userlogin, name = "userlogin"),     #Template O / 위에서 버튼 눌렀을떄 가는 페이지
     path('poll/user=<str:id>', usv.userlogin_process, name = "poll"),
-    path('wrong', usv.wrong, name = "wrong"),       #Template O /로그인 실패하면 가는 페이지
+    path('wrong/', usv.wrong, name = "wrong"),       #Template O /로그인 실패하면 가는 페이지
     path('pollprocess/', usv.pollprocess, name = "pollprocess"),        #Template X, Redirect 'end'/ 투표 로직 
     path('end/', usv.end, name = "end"),        #사진까지 다 찍고 투표 끝났을떄 
 

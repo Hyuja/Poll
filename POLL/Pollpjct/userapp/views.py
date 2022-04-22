@@ -1,4 +1,3 @@
-from email.headerregistry import Address
 from django.shortcuts import redirect, render
 from adminapp.models import Candidate
 from .models import *
@@ -46,20 +45,11 @@ def userlogin_process (request, id):        #id = BasicUser.id
         else:
             return redirect ('home')
 
-        
-def poll (request):
-    POLL_CASES = Poll_Cases.objects.all()
-    Candidates = Candidate.objects.all()
-    return render(request, 'poll.html', {'POLL_CASES' : POLL_CASES, 'Candidates' : Candidates})
-    
 
 def wrong (request):
     return render (request, "wrong.html")
 
-
-
-def pollprocess(request):
-    
+def pollprocess(request):       
     return redirect ('end')
 
 def end (request):
