@@ -26,14 +26,14 @@
     <br><br><br>
     <img src = "{%static 'amupic.png'%}" alt = "" width = "100" height="100">
     <br><br>
-
+  
     {% if user.is_anonymous %}
         <a href= "{% url 'google_login' %}"><img src = "{% static 'google_btn.png' %}" alt = "" width = "191" height= "46"></a>
     {% endif %}
 
     {% if user.is_authenticated %} 
         logined. direct to poll page<br>
-        <form action = "{% url 'poll' user.id %}">
+        <form action = "{% url 'userlogin' %}">
             <button class="btn btn-lg btn-primary" type="submit">Poll</button>
         </form>
     {% endif %}
