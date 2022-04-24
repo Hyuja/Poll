@@ -13,30 +13,31 @@
 
 {% if user.is_authenticated and searchuser.ifvoted == False %}
   <div align = "middle">
-    <form method = "POST" action = "{% url 'pollprocess' %}"></form>  
-    
-      {% for POLL_CASE in POLL_CASES %}
-        <h1 class="mt-4">{{POLL_CASE.poll_name}}</h1><br><br>
-        
-        {% csrf_token %}
-        
-          {% for Candidate in Candidates %} 
-            <!-- 선거별로 후보 분류 -->
-            {% if Candidate.Poll_Case_id == POLL_CASE %}
-            <div class = "div2">
-              <div class="row row-cols-1 row-cols-md-3 gx-4">
-                <div class="col themed-grid-col">{{Candidate.CandidateNum}}</div>
-                <div class="col themed-grid-col">{{Candidate.side}}</div>
-                <div class="col themed-grid-col">{{Candidate.CandidateName}}</div>
-              </div>
-            </div>
-            {% endif %}
-          {% endfor %}
-      {% endfor %}
-      <!-- 버튼 하나로 POLL_CASES 수만큼 정보 전달  -->
-      <br>
-      <button type="submit" class="btn btn-primary btn-lg">Submit</button>   
-    </form>  
+    <div class = "container">
+      <form method = "POST" action = "{% url 'pollprocess' %}"></form>  
+      
+        {% for POLL_CASE in POLL_CASES %}
+          <h1 class="mt-4">{{POLL_CASE.poll_name}}</h1><br>
+          
+          {% csrf_token %}
+          
+            {% for Candidate in Candidates %} 
+              <!-- 선거별로 후보 분류 -->
+              {% if Candidate.Poll_Case_id == POLL_CASE %}
+                <div class="row row-cols-1 row-cols-md-3 gx-4">
+                  <div class="col themed-grid-col">{{Candidate.CandidateNum}}</div>
+                  <div class="col themed-grid-col">{{Candidate.side}}</div>
+                  <div class="col themed-grid-col">{{Candidate.CandidateName}}</div>
+                </div>
+              {% endif %}
+            {% endfor %}
+            <br><br><br>
+        {% endfor %}
+        <!-- 버튼 하나로 POLL_CASES 수만큼 정보 전달  -->
+        <br>
+        <button type="submit" class="btn btn-primary btn-lg">Submit</button>   
+      </form> 
+    </div> 
   </div>
 {% endif %}
 

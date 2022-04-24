@@ -1,3 +1,4 @@
+from asyncore import poll
 from django.shortcuts import redirect, render
 from adminapp.models import Candidate
 from .models import *
@@ -11,9 +12,6 @@ def home(request):
 
 def userlogin (request):
     if request.user.is_authenticated:       
-    
-        POLL_CASES = Poll_Cases.objects.all().order_by('poll_case_num')     #1번 선거 케이스부터 정렬
-        Candidates = Candidate.objects.all().order_by('CandidateNum')       #1번 후보부터 정렬
         userid = request.user.id
         srcBasicUser = BasicUser.objects.filter(id = userid)        #무조건 있음. 오류X / 1
         srclogied = logineduseraccount.objects.filter(related_useraccount = srcBasicUser[0].id)        #대응되는 정보. 정보입력헀으면 있음 / 2
@@ -24,11 +22,24 @@ def userlogin (request):
             gotaddress = srclogied[0].address
             gotpassword = srclogied[0].password
             srcuseraccount = useraccount.objects.filter(name = gotname, sex = gotsex, birth = gotbirth, address = gotaddress, password = gotpassword)       #srcloginedㅇㅔ 매치되는 명부 / 3
-            if srcuseraccount[0].ifvoted == False:      #다 됐고 투표권도 있을때
-                return render (request, 'poll.html', {'POLL_CASES' : POLL_CASES, 'Candidates' : Candidates, 'searchuser' : srcuseraccount[0]})       
-            elif srcuseraccount[0].ifvoted == True:     #다 됐는데 이미 투표 했을때 
-                return redirect('alreadyvoted')
-        
+            
+            POLL_CASE = Poll_Cases.objects.filter(id = -1)     #빈 쿼리셋 타입 가올려고
+            candidate = Candidate.objects.filter(id = -1)
+
+            #투표권 있는 poll_case와 그에 대응하는 candidate만 넘겨주기
+            for srcus in srcuseraccount:
+                POLL_CASE = POLL_CASE | Poll_Cases.objects.filter(id = srcus.poll_case.id)
+            for pollcase in POLL_CASE:
+                candidate = candidate | Candidate.objects.filter(Poll_Case_id = pollcase.id)
+            POLL_CASE = POLL_CASE.order_by('poll_case_num')
+            candidate = candidate.order_by('CandidateNum')
+            if srcuseraccount.exists():
+                if srcuseraccount[0].ifvoted == False:
+                    return render (request, 'poll.html', {'POLL_CASES' : POLL_CASE, 'Candidates' : candidate, 'searchuser' : srcuseraccount[0]})       
+                elif srcuseraccount[0].ifvoted == True:     #다 됐는데 이미 투표 했을때 
+                    return redirect('alreadyvoted')
+            else: 
+                return redirect('wrong')
         else: 
             return render(request, "userlogin.html")
 
@@ -37,8 +48,6 @@ def userlogin (request):
 
 def userlogin_process (request):        #id = BasicUser.id  / 여기 접근하는 케이스는 처음 로그인 하는 상황. 그냥 정보 저장하면 됨 
     if request.user.is_authenticated:
-        POLL_CASES = Poll_Cases.objects.all().order_by('poll_case_num')     #1번 선거 케이스부터 정렬
-        Candidates = Candidate.objects.all().order_by('CandidateNum')       #1번 후보부터 정렬
         userid = request.user.id
         srcBasicUser = BasicUser.objects.filter(id = userid)        #무조건 있음. 오류X / 1
 
@@ -57,30 +66,54 @@ def userlogin_process (request):        #id = BasicUser.id  / 여기 접근하�
         new_logined.password = gotpassword
         new_logined.save()
         
-        srclogied = logineduseraccount.objects.filter(name = gotname, sex = gotsex, birth = gotbirth, address = gotaddress, password = gotpassword)     #방금 만든 거         #대응되는 정보. 정보입력헀으면 있음 / 2
-        
+        srclogied = logineduseraccount.objects.filter(name = gotname, sex = gotsex, birth = gotbirth, address = gotaddress, password = gotpassword)     #방금 만든 거, 정보 입력한거          #대응되는 정보. 정보입력헀으면 있음 / 2
+        print(srclogied[0].name)
+        print(srclogied[0].password)
+        #애는 인당 하나씩 있음 
         newname = srclogied[0].name
         newsex = srclogied[0].sex
         newbirth = srclogied[0].birth
         newaddress = srclogied[0].address
         newpassword = srclogied[0].password
         
-        srcuseraccount = useraccount.objects.filter(name = newname, sex = newsex, birth = newbirth, address = newaddress, password = newpassword)       #srcloginedㅇㅔ 매치되는 명부 / 3
+        srcuseraccount = useraccount.objects.filter(name = newname, sex = newsex, birth = newbirth, address = newaddress, password = newpassword)       #srcloginedㅇㅔ 매치되는 명부 / 3 / poll_case 2개 이상에 등록되어 있으면 객체 하나 아님.
         
-        if srcuseraccount[0].ifvoted == False:
-            return render (request, 'poll.html', {'POLL_CASES' : POLL_CASES, 'Candidates' : Candidates, 'searchuser' : srcuseraccount[0]})       
-        elif srcuseraccount[0].ifvoted == True:     #다 됐는데 이미 투표 했을때 
-            return redirect('alreadyvoted')
+        if srcuseraccount.exists() == False:        #srclogined까지 있는데 그에 매칭되는 명부가 없을때 
+            return redirect('wrong')
+        
+        else:       #다 맞을떄 
+            POLL_CASE = Poll_Cases.objects.filter(id = -1)     #빈 쿼리셋 타입 가올려고
+            candidate = Candidate.objects.filter(id = -1)
+
+            #투표권 있는 poll_case와 그에 대응하는 candidate만 넘겨주기
+            for srcus in srcuseraccount:
+                POLL_CASE = POLL_CASE | Poll_Cases.objects.filter(id = srcus.poll_case.id)
+            for pollcase in POLL_CASE:
+                candidate = candidate | Candidate.objects.filter(Poll_Case_id = pollcase.id)
+            POLL_CASE = POLL_CASE.order_by('poll_case_num')
+            candidate = candidate.order_by('CandidateNum')
+
+            if srcuseraccount[0].ifvoted == False:
+                return render (request, 'poll.html', {'POLL_CASES' : POLL_CASE, 'Candidates' : candidate, 'searchuser' : srcuseraccount[0]})       
+            elif srcuseraccount[0].ifvoted == True:     #다 됐는데 이미 투표 했을때 
+                return redirect('alreadyvoted')
     else: 
         return redirect('home')
 
 def wrong (request):
     return render (request, "wrong.html")
 
+def deletewronginfo(request):
+    userid = request.user.id
+    srcBasicUser = BasicUser.objects.filter(id = userid)
+    todellogined = logineduseraccount.objects.filter(related_useraccount = srcBasicUser[0].id)      
+    todellogined.delete()       #정보가 맞든 틀리든 대응되는 객체가 있기만 해도 정보입력을 할 수 없게 위에서 해놓아서 지워야 정보입력까지 도달 가능 
+    return redirect ('userlogin')
+
 def alreadyvoted(request):
     return render (request, "alreadyvoted.html")
 
-def pollprocess(request):    
+def pollprocess(request):
     return redirect ('end')
 
 def end (request):
