@@ -274,7 +274,7 @@ class Candidate(models.Model):
 
 <br/>
 
-## D9 2022/04/19 : pub_date, db 저장할떄 공백제거, 중복제거 하려고 했으나 실패 
+## D9 2022/04/19 : pub_date, db 저장할떄 공백제거, 중복제거 하려고 했으나 실패 <br/>
 * models.py 에서 바로 __init__으로 공백제거, 중복 컨트롤 하고 싶었는데 실패함<br/><br/>
 * admin 창에서 db 만드는게 아니라 import 해오는 거라서 pub_date도 안됨 : excel에서 default값 입력하기도 어려움 <br/><br/>
 * 둘 다 필수적인 요소라 꼭 넣을거임
@@ -285,7 +285,7 @@ class Candidate(models.Model):
 
 <br/>
 
-## D10 2022/04/20 : allauth google login api, 만들어놨던 템플릿, 함수에 로그인 기능 더하기, logineduseraccount model만들기 
+## D10 2022/04/20 : allauth google login api, 만들어놨던 템플릿, 함수에 로그인 기능 더하기, logineduseraccount model만들기 <br/>
 * allauth google 로그인. 일단 하긴 했는데 버튼 누르면 바로 구글 화면으로 넘어갔으면 하는데 allauth 로그인 화면 한번 거쳐서 가서 수정해줘야될듯, 로그아웃 버튼도. <br/><br/>
 <img width="1100" alt="Screen Shot 2022-04-21 at 17 51 07" src="https://user-images.githubusercontent.com/96364048/164417894-19ef714c-0dc4-4449-8200-98c8f8e22917.png">
 
@@ -298,5 +298,113 @@ class Candidate(models.Model):
 
 <br/>
 
-## D11 2022/04/21 : 소셜로그인하고 정보입력하는 메서드 구현하고 이것저것 다 <br/>
+## D11 2022/04/21 : 소셜로그인하고 정보입력하는 메서드 구현하고 이것저것 다 
+
+<br/>
+
+* * * * 
+
+<br/>
+
+## D12 2022/04/22 : 로그인한 이후 footer보이도록 (로그인된 계정 정보 보여주고, 로그아웃 버튼, staff이면 admin가는 버튼)
+
+<br>
+
+* * * *
+
+<br/>
+
+## D13 2022/04/23 : 자잘한 수정
+<br/>
+
+* allauth 기본 템플릿 떄문에 {% url 'google_login' %} 눌렀을 떄 <br/>
+
+![yldp2](https://user-images.githubusercontent.com/96364048/164879284-f695ef33-ef32-458a-9b7b-b8bd54c939fa.png)
+
+<br/>
+
+여기에 걸려서 바로 로그인이 안되길래 settings.py에 <code>SOCIALACCOUNT_LOGIN_ON_GET = True</code> 로 해결. <br/><br/>
+
+* 로그아웃 할 떄도 allauth 기본 템플릿에 걸리는데 그건 <code>LOGOUT_ON_GET = True</code> 로 해결.  <br/><br/>
+
+* 로그아웃 구현<br/>
+
+template 에서는 
+
+~~~html
+<form method="post" action="{% url 'account_logout' %}">
+  {% csrf_token %}
+  {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+  {% endif %}
+    <button class="btn btn-outline-secondary" type="submit">Sign out</button>
+</form> 
+~~~ 
+
+views.py 에서는 <br/>
+<code>from django.contrib.auth import logout</code> 하고 <code>logout(request)</code> 
+
+## D14 2022/04/24: poll.html, 로그인, 이것저것 <br/>
+* poll에서 선거별, 후보별로 잘 표시 되었지만 투표권 없는 투표까지 나와서 views에서 전달할때 투표권 있는 투표만 걸러서 전달하기<br/><br/>
+
+userapp/views.py <code>def userlogin_process</code> 중 일부
+~~~python
+POLL_CASE = Poll_Cases.objects.filter(id = -1)     #빈 쿼리셋 타입 가올려고
+candidate = Candidate.objects.filter(id = -1)
+
+#투표권 있는 poll_case와 그에 대응하는 candidate만 넘겨주기
+for srcus in srcuseraccount:
+    POLL_CASE = POLL_CASE | Poll_Cases.objects.filter(id = srcus.poll_case.id)
+for pollcase in POLL_CASE:
+    candidate = candidate | Candidate.objects.filter(Poll_Case_id = pollcase.id)
+POLL_CASE = POLL_CASE.order_by('poll_case_num')
+candidate = candidate.order_by('CandidateNum')
+
+if srcuseraccount[0].ifvoted == False:
+    return render (request, 'poll.html', {'POLL_CASES' : POLL_CASE, 'Candidates' : candidate, 'searchuser' : srcuseraccount[0]})       
+elif srcuseraccount[0].ifvoted == True:     #다 됐는데 이미 투표 했을때 
+    return redirect('alreadyvoted')
+~~~
+~~이게되네ㅋㅋ~~
+<br/><br/>
+* 투표별 후보로 섞이지 않게<br/><br/>
+
+poll.html
+~~~html
+{% for POLL_CASE in POLL_CASES %}
+  <h1 class="mt-4">{{POLL_CASE.poll_name}}</h1><br>
+
+  {% csrf_token %}
+
+    {% for Candidate in Candidates %} 
+      <!-- 선거별로 후보 분류 -->
+        {% if Candidate.Poll_Case_id == POLL_CASE %}
+          <div class="row row-cols-1 row-cols-md-3 gx-4">
+            <div class="col themed-grid-col">{{Candidate.CandidateNum}}</div>
+            <div class="col themed-grid-col">{{Candidate.side}}</div>
+            <div class="col themed-grid-col">{{Candidate.CandidateName}}</div>
+          </div>
+        {% endif %}
+     {% endfor %}
+  <br><br><br>
+{% endfor %}
+~~~
+
+결과
+<img width="1100" alt="Screen Shot 2022-04-25 at 7 26 49" src="https://user-images.githubusercontent.com/96364048/164999514-973fc44f-1949-4419-9661-bdc16df04535.png">
+<br/><br/>
+
+* views.py 로그인은 너무 길어서 따로 첨부 X. 소셜로그인 -> 정보입력 인데 정보입력은 첫 로그인 때만 하도록 하게 되어 있음 -> 처음에 틀린 정보를 입력하면 계속 로그인 실패 그래서 로그인 다시 시도 버튼을 누르면 정보입력창에 다시 접근하기 위해 social account에 대응되는 틀린 정보를 아예 삭제하도록 함 <br/><br/>
+~~~python 
+def deletewronginfo(request):
+    userid = request.user.id
+    srcBasicUser = BasicUser.objects.filter(id = userid)
+    todellogined = logineduseraccount.objects.filter(related_useraccount = srcBasicUser[0].id)      
+    todellogined.delete()       #정보가 맞든 틀리든 대응되는 객체가 있기만 해도 정보입력을 할 수 없게 위에서 해놓아서 지워야 정보입력까지 도달 가능 
+    return redirect ('userlogin')
+~~~
+
+* 현재까지 로그인 구조(일단 아직까지는 버그 못찾음) <br/>
+![KakaoTalk_Photo_2022-04-25-08-18-14](https://user-images.githubusercontent.com/96364048/165000802-a33f9dc9-8520-4bea-bd1e-5ecaa0a20ebc.jpeg)
+
 
