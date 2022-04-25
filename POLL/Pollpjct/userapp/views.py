@@ -116,6 +116,10 @@ def alreadyvoted(request):
     return render (request, "alreadyvoted.html")
 
 def pollprocess(request):
+    gotlst = request.POST['choice']
+    lst = list(map(int, input("").split))
+    print(lst)
+    print(type(lst))
     return redirect ('end')
 
 def end (request):

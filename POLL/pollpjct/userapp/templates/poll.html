@@ -14,7 +14,7 @@
 {% if user.is_authenticated %}
   <div align = "middle">
     <div class = "container">
-      <form method = "POST" action = "{% url 'pollprocess' %}"></form>  
+      <form method = "POST" action = "{% url 'pollprocess' %}">  
       
         {% for POLL_CASE in POLL_CASES %}
           <h1 class="mt-4">{{POLL_CASE.poll_name}}</h1><br>
@@ -31,8 +31,14 @@
                 </div>
               {% endif %}
             {% endfor %}
-            <br><br><br>
+            <br><br>
+            <hr>
+            <br>
         {% endfor %}
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="inputGroup-sizing-default">{{POLL_CASE.poll_name}}</span>
+          <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name = "choice">
+        </div>
         <!-- 버튼 하나로 POLL_CASES 수만큼 정보 전달  -->
         <br>
         <button type="submit" class="btn btn-primary btn-lg">Submit</button>   
@@ -46,35 +52,6 @@
     Please Login to access this page
   </div>
 {% endif %}
-
 </main>
-<script>
-  var div2 = document.getElementsByClassName("div2");
 
-  function handleClick(event) {
-  console.log(event.target);
-  // console.log(this);
-  // 콘솔창을 보면 둘다 동일한 값이 나온다
-
-  console.log(event.target.classList);
-
-  if (event.target.classList[1] === "clicked") {
-    event.target.classList.remove("clicked");
-  } else {
-    for (var i = 0; i < div2.length; i++) {
-      div2[i].classList.remove("clicked");
-    }
-
-    event.target.classList.add("clicked");
-  }
-  }
-
-  function init() {
-  for (var i = 0; i < div2.length; i++) {
-    div2[i].addEventListener("click", handleClick);
-  }
-  }
-
-  init();
-</script>
 {% endblock %}
