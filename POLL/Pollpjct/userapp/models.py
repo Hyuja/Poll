@@ -20,7 +20,6 @@ class useraccount (models.Model):
     class Meta:
         pass
 
-
 class logineduseraccount (models.Model):
     related_useraccount = models.ForeignKey(BasicUser, on_delete = models.CASCADE, default = '')
     name = models.CharField(max_length = 20)       

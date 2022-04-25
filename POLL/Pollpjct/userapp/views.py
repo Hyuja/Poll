@@ -26,7 +26,6 @@ def userlogin (request):
             POLL_CASE = Poll_Cases.objects.filter(id = -1)     #빈 쿼리셋 타입 가올려고
             candidate = Candidate.objects.filter(id = -1)
             
-            
             #투표권 있는 poll_case와 그에 대응하는 candidate만 넘겨주기
             for srcus in srcuseraccount:
                 POLL_CASE = POLL_CASE | Poll_Cases.objects.filter(id = srcus.poll_case.id)
@@ -116,13 +115,39 @@ def alreadyvoted(request):
     return render (request, "alreadyvoted.html")
 
 def pollprocess(request):
-    # gotlst = request.POST['choice']
-    # lst = list(map(int, input("").split))
-    # print(lst)
-    # print(type(lst))
-    return redirect ('end')
+    if request.user.is_authenticated:
+        gotlst = request.POST['choice']
+        choicelst = list(map(int, gotlst.split()))        #Candidate id 
+        print(choicelst)
+        userid = request.user.id
+        srcBasicUser = BasicUser.objects.filter(id = userid)
+        srclogined = logineduseraccount.objects.filter(related_useraccount = srcBasicUser[0].id)
+        srcuseraccount = useraccount.objects.filter(name = srclogined[0].name, sex = srclogined[0].sex, birth = srclogined[0].birth, address = srclogined[0].address, password = srclogined[0].password, ifvoted = False)
+        #표 늘어나는 과정 & ifvoted = True
+        chosenCandidate = Candidate.objects.filter(id = -1)
+        
+        for p in choicelst:
+            chosenCandidate = chosenCandidate | Candidate.objects.filter(id = p)
+
+        for q in range(0, len(chosenCandidate), 1):
+            chosenpollcase = Poll_Cases.objects.filter(id = -1)
+            chosenCandidate[q].votes  = chosenCandidate[q].votes + 1
+            chosenCandidate[q].save()  
+            chosenpollcase = chosenCandidate[q].Poll_Case_id
+            votedusc = useraccount.objects.filter(name = srclogined[0].name, sex = srclogined[0].sex, birth = srclogined[0].birth, address = srclogined[0].address, password = srclogined[0].password, ifvoted = False, poll_case = chosenpollcase)
+            votedus = votedusc[0]
+            votedus.ifvoted = True
+            votedus.save()
+        #몇번 투표했는지 메세지 띄워주기 
+        
+        return redirect ('end')
+
+    else: 
+        return redirect('home')
 
 def end (request):
     if request.user.is_authenticated:
         logout(request)
-    return render (request, 'end.html')
+        return render (request, 'end.html')
+    else:
+        return redirect ('home')
