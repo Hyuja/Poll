@@ -20,8 +20,7 @@ urlpatterns = [
     path('alreadyvoted/', usv.alreadyvoted, name = "alreadyvoted"),
     path('deletewronginfo/', usv.deletewronginfo, name = "deletewronginfo"),
     #adminapp
-    path('adminaccess/', adv.adminloigin, name = "adminlogin"),     #Template O /어드민 홈 페이지, 어드민은 로그인부터 
     path('adminaccess/PollResult', adv.PollResult, name = "PollResult"),         #Template O / Poll Result Visualization 
-
+    path('adminaccess/accessdenied', adv.accessdenied, name = "accessdenied"),
     
 ]

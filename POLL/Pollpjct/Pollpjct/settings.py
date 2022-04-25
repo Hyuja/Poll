@@ -147,7 +147,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'userapp', 'static')
+    os.path.join(BASE_DIR, 'pollpjct', 'static')
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
