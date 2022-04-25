@@ -406,7 +406,7 @@ def deletewronginfo(request):
 * 현재까지 로그인 구조(일단 아직까지는 버그 못찾음) <br/>
 ![KakaoTalk_Photo_2022-04-25-08-18-14](https://user-images.githubusercontent.com/96364048/165000802-a33f9dc9-8520-4bea-bd1e-5ecaa0a20ebc.jpeg)
 
-<br/>
+<br/><br/>
 
 * * * *
 
@@ -478,3 +478,11 @@ PollResult.html (views에서 정렬한 채로 전달받기 떄문에 특별한 �
     {% endfor %}
 {% endfor %}
 ~~~ 
+
+<br/>
+
+* * * *
+
+<br/>
+
+## D16 2022/04/26 :
