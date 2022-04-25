@@ -402,8 +402,44 @@ def deletewronginfo(request):
     todellogined.delete()       #정보가 맞든 틀리든 대응되는 객체가 있기만 해도 정보입력을 할 수 없게 위에서 해놓아서 지워야 정보입력까지 도달 가능 
     return redirect ('userlogin')
 ~~~
-
+<br/>
 * 현재까지 로그인 구조(일단 아직까지는 버그 못찾음) <br/>
 ![KakaoTalk_Photo_2022-04-25-08-18-14](https://user-images.githubusercontent.com/96364048/165000802-a33f9dc9-8520-4bea-bd1e-5ecaa0a20ebc.jpeg)
 
+<br/>
 
+* * * *
+
+<br/>
+
+## D15 2022/04/25 : poll, poll_process 구현, 관련 기능 이것저것 <br/>
+* poll에서 poll_process로 선택한 후보 id로 넘겨줄 떄 (프론트 수정 안해서 투표하려면 후보 id 입력해줘야됨) <br/>
+~~poll.html 도저히 못하겠음 아니 for문에 라디오 버튼 넣었더니 그냥 다 이상해짐~~
+~~~python 
+gotlst = request.POST['choice']
+choicelst = list(map(int, gotlst.split()))        #Candidate id 
+print(choicelst)
+userid = request.user.id
+srcBasicUser = BasicUser.objects.filter(id = userid)
+srclogined = logineduseraccount.objects.filter(related_useraccount = srcBasicUser[0].id)
+srcuseraccount = useraccount.objects.filter(name = srclogined[0].name, sex = srclogined[0].sex, birth = srclogined[0].birth, address = srclogined[0].address, password = srclogined[0].password, ifvoted = False)
+#표 늘어나는 과정 & ifvoted = True
+chosenCandidate = Candidate.objects.filter(id = -1)
+
+for p in choicelst:
+    chosenCandidate = chosenCandidate | Candidate.objects.filter(id = p)
+
+for q in range(0, len(chosenCandidate), 1):
+    chosenpollcase = Poll_Cases.objects.filter(id = -1)
+    chosenCandidate[q].votes  = chosenCandidate[q].votes + 1
+    chosenCandidate[q].save()  
+    chosenpollcase = chosenCandidate[q].Poll_Case_id
+    votedusc = useraccount.objects.filter(name = srclogined[0].name, sex = srclogined[0].sex, birth = srclogined[0].birth, address = srclogined[0].address, password = srclogined[0].password, ifvoted = False, poll_case = chosenpollcase)
+    votedus = votedusc[0]
+    votedus.ifvoted = True
+    votedus.save()
+~~~
+<br/>
+* userlogin에서 poll 넘어갈 떄 아예 filter(~, ifvoted = False) 해놓아서 1, 2, 3 번 투표중에 1, 3만 하면 나중에 2 할 수 있음 (아무튼 지금까지는 버그 없고 웬만한 케이스에는 다 작동한다는 뜻) <br/><br/>
+* adminaccess/PollResult 간단히 구현 
+* 
