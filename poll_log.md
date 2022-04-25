@@ -353,17 +353,16 @@ POLL_CASE = Poll_Cases.objects.filter(id = -1)     #빈 쿼리셋 타입 가올�
 candidate = Candidate.objects.filter(id = -1)
 
 #투표권 있는 poll_case와 그에 대응하는 candidate만 넘겨주기
-for srcus in srcuseraccount:
+for srcus in srcuseraccount:    
     POLL_CASE = POLL_CASE | Poll_Cases.objects.filter(id = srcus.poll_case.id)
+
 for pollcase in POLL_CASE:
     candidate = candidate | Candidate.objects.filter(Poll_Case_id = pollcase.id)
+
 POLL_CASE = POLL_CASE.order_by('poll_case_num')
 candidate = candidate.order_by('CandidateNum')
 
-if srcuseraccount[0].ifvoted == False:
-    return render (request, 'poll.html', {'POLL_CASES' : POLL_CASE, 'Candidates' : candidate, 'searchuser' : srcuseraccount[0]})       
-elif srcuseraccount[0].ifvoted == True:     #다 됐는데 이미 투표 했을때 
-    return redirect('alreadyvoted')
+return render (request, 'poll.html', {'POLL_CASES' : POLL_CASE, 'Candidates' : candidate, 'searchuser' : srcuseraccount})       
 ~~~
 ~~이게되네ㅋㅋ~~
 <br/><br/>
