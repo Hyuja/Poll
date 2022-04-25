@@ -1,22 +1,18 @@
 # Poll
 
 구현할 메이저 페이지 이름 
- - adminlogin (template X, function X)  
  - adminsignup 
- - adminmenu O (근데 디자인이 안이쁨)
  - 4 pollresult (template O, function X)  
- - userhome O 
- - userlogin (template O, function X)  
  - poll 
  - endpic - * 
 
 고민중인 내용들
 
 TO DO  
- - admin login api -> ExcelDB -> user login api -> model comparison -> poll -> endpic -> visualization 
- - 로그인 API 
- - userapp/poll.html for문 수정 
- - unique constraint 
+ - admin login api -> ExcelDB -> user login api -> model comparison -> poll -> endpic -> visualization  
+ - login api 하나만 더 
+ - userapp/poll.html 수정 
+ - unique constraint & 공백제거 
  - https://geeksforgeeks.org/securing-django-admin-login-with-otp-2-factor-authentication/ or django admin two-factor login검색 
  - 
 
