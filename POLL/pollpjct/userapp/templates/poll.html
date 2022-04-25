@@ -11,7 +11,7 @@
 {% block content %}
 <main class = "py-4"><br><br>
 
-{% if user.is_authenticated and searchuser.ifvoted == False %}
+{% if user.is_authenticated %}
   <div align = "middle">
     <div class = "container">
       <form method = "POST" action = "{% url 'pollprocess' %}"></form>  
@@ -39,16 +39,6 @@
       </form> 
     </div> 
   </div>
-{% endif %}
-
-
-
-
-
-{% if user.is_authenticated and searchuser.ifvoted == True %}
-  <div align = "middle">
-    Already voted!
-  </div>  
 {% endif %}
 
 {% if user.is_anonymous %}

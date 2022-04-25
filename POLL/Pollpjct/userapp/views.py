@@ -21,25 +21,26 @@ def userlogin (request):
             gotbirth = srclogied[0].birth
             gotaddress = srclogied[0].address
             gotpassword = srclogied[0].password
-            srcuseraccount = useraccount.objects.filter(name = gotname, sex = gotsex, birth = gotbirth, address = gotaddress, password = gotpassword)       #srcloginedㅇㅔ 매치되는 명부 / 3
+            srcuseraccount = useraccount.objects.filter(name = gotname, sex = gotsex, birth = gotbirth, address = gotaddress, password = gotpassword, ifvoted = False)       #srclogined에 매치되는 명부 / 투표권 있는 명부만 불러옴 / 3
             
             POLL_CASE = Poll_Cases.objects.filter(id = -1)     #빈 쿼리셋 타입 가올려고
             candidate = Candidate.objects.filter(id = -1)
-
+            
+            
             #투표권 있는 poll_case와 그에 대응하는 candidate만 넘겨주기
             for srcus in srcuseraccount:
                 POLL_CASE = POLL_CASE | Poll_Cases.objects.filter(id = srcus.poll_case.id)
+            
             for pollcase in POLL_CASE:
                 candidate = candidate | Candidate.objects.filter(Poll_Case_id = pollcase.id)
+            
             POLL_CASE = POLL_CASE.order_by('poll_case_num')
             candidate = candidate.order_by('CandidateNum')
-            if srcuseraccount.exists():
-                if srcuseraccount[0].ifvoted == False:
-                    return render (request, 'poll.html', {'POLL_CASES' : POLL_CASE, 'Candidates' : candidate, 'searchuser' : srcuseraccount[0]})       
-                elif srcuseraccount[0].ifvoted == True:     #다 됐는데 이미 투표 했을때 
-                    return redirect('alreadyvoted')
-            else: 
-                return redirect('wrong')
+            if srcuseraccount.exists():    #투표권 있는 대응되는 명부 있으면 
+                return render (request, 'poll.html', {'POLL_CASES' : POLL_CASE, 'Candidates' : candidate, 'searchuser' : srcuseraccount})       
+            
+            else:       
+                return redirect('alreadyvoted')
         else: 
             return render(request, "userlogin.html")
 
@@ -77,26 +78,27 @@ def userlogin_process (request):        #id = BasicUser.id  / 여기 접근하�
         newpassword = srclogied[0].password
         
         srcuseraccount = useraccount.objects.filter(name = newname, sex = newsex, birth = newbirth, address = newaddress, password = newpassword)       #srcloginedㅇㅔ 매치되는 명부 / 3 / poll_case 2개 이상에 등록되어 있으면 객체 하나 아님.
-        
         if srcuseraccount.exists() == False:        #srclogined까지 있는데 그에 매칭되는 명부가 없을때 
             return redirect('wrong')
-        
+        srcuseraccount = useraccount.objects.filter(name = newname, sex = newsex, birth = newbirth, address = newaddress, password = newpassword, ifvoted = False)       #srcloginedㅇㅔ 매치되는 명부 / 3 / poll_case 2개 이상에 등록되어 있으면 객체 하나 아님.
+        if srcuseraccount.exists() == False:        #srclogined까지 있는데 ifvoted == False인게 없을 떄 
+            return redirect('alreadyvoted')
         else:       #다 맞을떄 
             POLL_CASE = Poll_Cases.objects.filter(id = -1)     #빈 쿼리셋 타입 가올려고
             candidate = Candidate.objects.filter(id = -1)
 
             #투표권 있는 poll_case와 그에 대응하는 candidate만 넘겨주기
-            for srcus in srcuseraccount:
+            for srcus in srcuseraccount:    
                 POLL_CASE = POLL_CASE | Poll_Cases.objects.filter(id = srcus.poll_case.id)
+
             for pollcase in POLL_CASE:
                 candidate = candidate | Candidate.objects.filter(Poll_Case_id = pollcase.id)
+                
             POLL_CASE = POLL_CASE.order_by('poll_case_num')
             candidate = candidate.order_by('CandidateNum')
 
-            if srcuseraccount[0].ifvoted == False:
-                return render (request, 'poll.html', {'POLL_CASES' : POLL_CASE, 'Candidates' : candidate, 'searchuser' : srcuseraccount[0]})       
-            elif srcuseraccount[0].ifvoted == True:     #다 됐는데 이미 투표 했을때 
-                return redirect('alreadyvoted')
+            return render (request, 'poll.html', {'POLL_CASES' : POLL_CASE, 'Candidates' : candidate, 'searchuser' : srcuseraccount})       
+            
     else: 
         return redirect('home')
 
