@@ -40,6 +40,7 @@
                 <strong>{% firstof user.get_short_name user.get_username %}</strong>.
             {% endblock %}
             {% block userlinks %}
+                <a href = "{% url 'PollResult' %}">Poll Result</a> / 
                 {% if site_url %}
                     <a href="{{ site_url }}">home</a> /
                 {% endif %}
@@ -63,7 +64,7 @@
     <!-- END Header -->
     {% block breadcrumbs %}
     <div class="breadcrumbs">
-    <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+    <a href="{% url 'admin:index' %}">{% translate 'Administration' %}</a>
     {% if title %} &rsaquo; {{ title }}{% endif %}
     </div>
     {% endblock %}

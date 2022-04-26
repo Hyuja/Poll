@@ -4,7 +4,8 @@ import os
 from urllib import parse
 from .models import *
 from userapp.models import *
-
+import pandas as pd
+import matplotlib as plt
 
 def menu (request):
     return render (request, "menu.html")
@@ -23,11 +24,11 @@ def PollResult(request):
             canlst = Candidate.objects.filter(id = -1)
             canlst = canlst | Candidate.objects.filter(Poll_Case_id = pollcase.id).order_by('-votes')       #votes 올림차순. canlst[0]이 최다득표임 
             alllst = alllst | canlst
-        
-        
 
+        
+        
         return render (request, "PollResult.html", {"POLL_CASES" : POLL_CASES, "alllst" : alllst})
-    elif request.user.is_authenticated and request.user.is_staff == False:
+    else:
         return redirect ('accessdenied')
 
 def accessdenied (request):
