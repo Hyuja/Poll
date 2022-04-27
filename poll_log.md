@@ -485,4 +485,30 @@ PollResult.html (views에서 정렬한 채로 전달받기 떄문에 특별한 �
 
 <br/>
 
-## D16 2022/04/26 :
+## D16 2022/04/26 : plotly pie chart, poll.html 수정 , 이것저것<br/>
+* plotly pie chart
+<br/>
+<img width="1100" alt="Screen Shot 2022-04-27 at 19 57 03" src="https://user-images.githubusercontent.com/96364048/165503644-71e8e712-3a3c-4810-b652-0c0f3a7dfdfd.png">
+<br/>
+* interactive한 차트라 있어보임 <br/><br/>
+* 기존 poll은 Candidate id를 입력하는 방식이였음 -> 투표한 케이스만 비활성화되고 나머지 투표는 나중에 다시 할 수 있도록. 이 기능을 살려두려면 1. 유저가 Candidate.id를 입력, 2. radio버튼으로 입력 (for문에서 name이 뭐가 안되서) 외에도 제약이 꽤 있어서 poll.html에서 접근하는 poll_deatil.html을 새로 만듦. 투표 메서드는 poll_deatil로 이동. poll_detail에서는 온라인 투표의 장점을 살려 후보 사진, 공약 등의 간단한 선전물에 더 큰 영역을 할당함. (bootstrap Accordiond을 사용하고 싶은데 for문에서 막힘ㅠ)
+
+<br/><br/>
+
+* * * *
+
+<br/>
+
+## D17 2022/04/27 : plotly horizontal bar chart, pie chart 수정(색상, 배치), 사진 업로드 (후보 사진, 투표 후 로그인 유저 사진)<br/>
+* plotly horizontal bar chart <br/><br/>
+
+<img width="1100" alt="Screen Shot 2022-04-27 at 23 16 28" src="https://user-images.githubusercontent.com/96364048/165539370-9545d012-9af4-4be9-9834-7bcbb68c7c5c.png">
+
+<br/>
+
+* adminapp/models.py Candidate에 CandidateColor, CandidatePic 필드 추가. CandidateColor은 rgba(0, 250, 45, 0.9) 형식. poll.html, poll_deatil.html 뿐만 아니라 plotly에서도 변환 없이 그대로 사용 가능
+ 
+<br/>
+ 
+<img width="1100" alt="Screen Shot 2022-04-27 at 23 19 16" src="https://user-images.githubusercontent.com/96364048/165540073-19a7c2b6-1e11-4345-a4a9-969ba0702f1c.png">
+
