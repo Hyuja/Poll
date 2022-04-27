@@ -20,6 +20,7 @@ class Candidate(models.Model):
     side = models.CharField(max_length = 50)
     CandidateName = models.CharField(max_length = 20)
     votes = models.IntegerField(null = True, blank = True, default = 0)
+    CandidateColor = models.CharField(max_length = 25, default= "rgba(, , , )")
     content = models.TextField(null = True, blank = True)
     CandidatePic = models.ImageField(upload_to = "", null = True, blank = True)
 

@@ -33,37 +33,38 @@ def chart(request, id):
     pollcase = Poll_Cases.objects.filter(id = id)
     can = Candidate.objects.filter(Poll_Case_id = pollcase[0].id).order_by('-votes')
     
+    colors = []
+    for ca in can:
+        colors.append(ca.CandidateColor)
+    
+    #======================================================================================
+    
     ##PIE CHART
     labels = []
     values = []
     for ca in can:
-        labels.append(str(ca.CandidateName))
+        labels.append(str(ca.side) + (" ") + str(ca.CandidateName))
         values.append(int(ca.votes))
-    piechart = go.Figure(data = [go.Pie(labels = labels, values = values)])
-
+    
+    
+    piechart = go.Figure(data = [go.Pie(labels = labels, values = values, marker_colors = colors)])
     piechart = plot({'data' : piechart}, output_type = 'div')
+
+    
+    #======================================================================================
 
     ##HORIZIONTAL BAR CHARTS
     top_labels = labels
-    
-    colors = []
-    for p in range(0, 5, 1):
-        rgbl = ()
-        rgbls = []
-        for q in range(0, 3, 1):
-            rgbls.append(random.randrange(1, 254))
-        rgbls.append((random.randrange(8, 11))/10)
-        rgbl = tuple(rgbls)
-        colors.append(("rgba") +  str(rgbl))
+
+    y_data = ['70대 이상', '60대', '50대', '40대', '30대', '20대<br>10대 포함']     #fiexed field
     
     x_data = [[21, 30, 21, 16, 12],
             [24, 31, 19, 15, 11],
             [27, 26, 23, 11, 13],
-            [29, 24, 15, 18, 14]]
-
-    y_data = []     #ages
-    for i in range (2, 8, 1):
-        y_data.append(str(i*10) + ("대"))       #y_data = 20대, 30대 , 40대 , 50대 ~~~ / 10대는 통계 X) ,전교회장 선거같은 
+            [29, 24, 15, 18, 14],
+            [27, 26, 23, 11, 13],
+            [27, 26, 23, 11, 13],
+            [27, 26, 23, 11, 13],]
 
 
     fig = go.Figure()
@@ -94,7 +95,8 @@ def chart(request, id):
             zeroline=False,
         ),
         barmode='stack',
-        
+        paper_bgcolor='rgb(248, 248, 255)',
+        plot_bgcolor='rgb(248, 248, 255)',
         margin=dict(l=120, r=10, t=140, b=80),
         showlegend=False,
     )
@@ -107,42 +109,43 @@ def chart(request, id):
                                 x=0.14, y=yd,
                                 xanchor='right',
                                 text=str(yd),
-                                font=dict(family='Arial', size=14, color='rgb(67, 67, 67)'),
+                                font=dict(family='Arial', size=14,
+                                        color='rgb(67, 67, 67)'),
                                 showarrow=False, align='right'))
         # labeling the first percentage of each bar (x_axis)
         annotations.append(dict(xref='x', yref='y',
                                 x=xd[0] / 2, y=yd,
                                 text=str(xd[0]) + '%',
-                                font=dict(family='Arial', size=14, color='rgb(248, 248, 255)'),
+                                font=dict(family='Arial', size=14,
+                                        color='rgb(248, 248, 255)'),
                                 showarrow=False))
         # labeling the first Likert scale (on the top)
         if yd == y_data[-1]:
             annotations.append(dict(xref='x', yref='paper',
                                     x=xd[0] / 2, y=1.1,
                                     text=top_labels[0],
-                                    font=dict(family='Arial', size=14, color='rgb(67, 67, 67)'),
+                                    font=dict(family='Arial', size=14,
+                                            color='rgb(67, 67, 67)'),
                                     showarrow=False))
         space = xd[0]
-
         for i in range(1, len(xd)):
-        # labeling the rest of percentages for each bar (x_axis)
-            annotations.append(dict(xref='x', yref='y',
-                                    x=space + (xd[i]/2), y=yd,
-                                    text=str(xd[i]) + '%',
-                                    font=dict(family='Arial', size=14, color='rgb(248, 248, 255)'),
-                                    showarrow=False))
-            # labeling the Likert scale
-            if yd == y_data[-1]:
-                annotations.append(dict(xref='x', yref='paper',
-                                        x=space + (xd[i]/2), y=1.1,
-                                        text=top_labels[i],
-                                        font=dict(family='Arial', size=14, color='rgb(67, 67, 67)'),
+                # labeling the rest of percentages for each bar (x_axis)
+                annotations.append(dict(xref='x', yref='y', x=space + (xd[i]/2), y=yd, text=str(xd[i]) + '%', font=dict(family='Arial', size=14, color='rgb(248, 248, 255)'),
                                         showarrow=False))
-            space += xd[i]
+                # labeling the Likert scale
+                if yd == y_data[-1]:
+                    annotations.append(dict(xref='x', yref='paper',
+                                            x=space + (xd[i]/2), y=1.1,
+                                            text=top_labels[i],
+                                            font=dict(family='Arial', size=14,
+                                                    color='rgb(67, 67, 67)'),
+                                            showarrow=False))
+                space += xd[i]
 
     fig.update_layout(annotations=annotations)
 
     fig = plot({'data' : fig}, output_type = 'div')
+
     return render(request, 'chart.html', context = {'plot_div' : piechart, 'fig' : fig })
 
 

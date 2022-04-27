@@ -124,6 +124,7 @@ def pollprocess(request):
             votedusc = useraccount.objects.filter(name = srclogined[0].name, sex = srclogined[0].sex, birth = srclogined[0].birth, address = srclogined[0].address, password = srclogined[0].password, ifvoted = False, poll_case = chosenpollcase)
             votedus = votedusc[0]
             votedus.ifvoted = True
+            votedus.voteresult = chosenCandidate[q].CandidateName
             votedus.save()
         #몇번 투표했는지 메세지 띄워주기 
         
@@ -168,6 +169,7 @@ def example(request):
 
 def fileUpload(request):
     if request.user.is_autenticated:    
+        
         if request.method == "POST":        #POST or POST.get
             srcBasicUser = BasicUser.objects.filter(id = request.user.id)
             srclogined = logineduseraccount.objects.filter(related_useraccount = srcBasicUser[0])

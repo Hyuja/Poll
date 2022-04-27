@@ -10,13 +10,13 @@
 {% block content %}
 <br><br><br>
     {% for Candidate in Candidates %}
+        <div style= "background-color: {{Candidate.CandidateColor}};" >
+            {{Candidate.CandidateNum}} | {{Candidate.side}} | {{Candidate.CandidateName}} 
 
-        {{Candidate.CandidateNum}} | {{Candidate.side}} | {{Candidate.CandidateName}} 
-
-        {% if Candidate.CandidatePic %}
-            <img src = "{{Candidate.CandidatePic.url}}" style= "width : 200px; height : 200px ;" alt = "">
-        {% endif %}
-        
+            {% if Candidate.CandidatePic %}
+                <img src = "{{Candidate.CandidatePic.url}}" style= "width : 200px; height : 200px ;" alt = "">
+            {% endif %}
+        </div>
         <br><br>
     {% endfor %}
 <br><br><br>
