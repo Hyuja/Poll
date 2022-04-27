@@ -13,15 +13,12 @@ class CandidateAdmin(admin.ModelAdmin):
 
 class CandidateInline(admin.TabularInline):
     model = Candidate
+    fields = ('Poll_Case_id', 'CandidateNum', 'side', 'CandidateName', 'votes')
+    readonly_fields = ('CandidatePic', 'content')
     extra = 1
 
 class Poll_CasesAdmin(admin.ModelAdmin):
     list_display = ['poll_case_num', 'poll_name', 'poll_status', 'id']     
-    fieldsets = [
-        (None, {'fields': ['poll_case_num']}), 
-        (None, {'fields' : ['poll_name']}), 
-        #('Date information', {'fields' : ['pub_date']})
-        ]
     inlines = [CandidateInline]
 
 admin.site.register(Poll_Cases, Poll_CasesAdmin)

@@ -13,3 +13,7 @@ class useraccountAdmin(ImportExportModelAdmin):
 @admin.register(logineduseraccount)
 class logineduseraccountAdmin(admin.ModelAdmin):
     list_display = ['name', 'sex', 'birth', 'address', 'password', 'id']
+
+@admin.register(logineduserpic)
+class logineduserpicAdmin(admin.ModelAdmin):
+    list_display = ['related_loginedaccount', 'title', 'imgfile']

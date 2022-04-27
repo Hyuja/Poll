@@ -1,11 +1,12 @@
-from asyncore import poll
 from django.shortcuts import redirect, render
 import os
 from urllib import parse
 from .models import *
 from userapp.models import *
-import pandas as pd
-import matplotlib.pyplot as plt
+from plotly.offline import plot
+from plotly import graph_objects as go 
+from matplotlib import pyplot as plt
+import random
 
 def menu (request):
     return render (request, "menu.html")
@@ -24,37 +25,126 @@ def PollResult(request):
             canlst = Candidate.objects.filter(id = -1)
             canlst = canlst | Candidate.objects.filter(Poll_Case_id = pollcase.id).order_by('-votes')       #votes 올림차순. canlst[0]이 최다득표임 
             alllst = alllst | canlst
-
-        plt.rc('font', family = "NanumGothic")
-        
-        #선거별 투표수 총합
-        allvotelst = [0] * POLL_CASES.count()       
-        cnt = 0 
-        for pollcase in POLL_CASES:
-            candi = Candidate.objects.filter(Poll_Case_id = pollcase.id)
-            for cand in candi:
-                allvotelst[cnt] = allvotelst[cnt] + cand.votes
-            cnt += 1
-        print("총 투표수" + str(allvotelst))
-        
-        cntt = 0
-        for pollcase in POLL_CASES:
-            ratio = []      #int
-            labels = []     #str
-            Candi = Candidate.objects.filter(Poll_Case_id = pollcase.id)
-            for candidate in Candi:
-                labels.append(str(candidate.CandidateName))
-                toapnd = round((candidate.votes/allvotelst[cntt])*100, 2)
-                ratio.append(toapnd)
-            cntt += 1 
-            print(str(pollcase.poll_case_num) + " 득표율" + str(ratio))
-            plt.pie(ratio, labels = labels, autopct = "%.2f%%")
-            plt.show()
-        
-        
         return render (request, "PollResult.html", {"POLL_CASES" : POLL_CASES, "alllst" : alllst})
     else:
         return redirect ('accessdenied')
+
+def chart(request, id):
+    pollcase = Poll_Cases.objects.filter(id = id)
+    can = Candidate.objects.filter(Poll_Case_id = pollcase[0].id).order_by('-votes')
+    
+    ##PIE CHART
+    labels = []
+    values = []
+    for ca in can:
+        labels.append(str(ca.CandidateName))
+        values.append(int(ca.votes))
+    piechart = go.Figure(data = [go.Pie(labels = labels, values = values)])
+
+    piechart = plot({'data' : piechart}, output_type = 'div')
+
+    ##HORIZIONTAL BAR CHARTS
+    top_labels = labels
+    
+    colors = []
+    for p in range(0, 5, 1):
+        rgbl = ()
+        rgbls = []
+        for q in range(0, 3, 1):
+            rgbls.append(random.randrange(1, 254))
+        rgbls.append((random.randrange(8, 11))/10)
+        rgbl = tuple(rgbls)
+        colors.append(("rgba") +  str(rgbl))
+    
+    x_data = [[21, 30, 21, 16, 12],
+            [24, 31, 19, 15, 11],
+            [27, 26, 23, 11, 13],
+            [29, 24, 15, 18, 14]]
+
+    y_data = []     #ages
+    for i in range (2, 8, 1):
+        y_data.append(str(i*10) + ("대"))       #y_data = 20대, 30대 , 40대 , 50대 ~~~ / 10대는 통계 X) ,전교회장 선거같은 
+
+
+    fig = go.Figure()
+
+    for i in range(0, len(x_data[0])):
+        for xd, yd in zip(x_data, y_data):
+            fig.add_trace(go.Bar(
+                x=[xd[i]], y=[yd],
+                orientation='h',
+                marker=dict(
+                    color=colors[i],
+                    line=dict(color='rgb(248, 248, 249)', width=1)
+                )
+            ))
+
+    fig.update_layout(
+        xaxis=dict(
+            showgrid=False,
+            showline=False,
+            showticklabels=False,
+            zeroline=False,
+            domain=[0.15, 1]
+        ),
+        yaxis=dict(
+            showgrid=False,
+            showline=False,
+            showticklabels=False,
+            zeroline=False,
+        ),
+        barmode='stack',
+        
+        margin=dict(l=120, r=10, t=140, b=80),
+        showlegend=False,
+    )
+
+    annotations = []
+
+    for yd, xd in zip(y_data, x_data):
+        # labeling the y-axis
+        annotations.append(dict(xref='paper', yref='y',
+                                x=0.14, y=yd,
+                                xanchor='right',
+                                text=str(yd),
+                                font=dict(family='Arial', size=14, color='rgb(67, 67, 67)'),
+                                showarrow=False, align='right'))
+        # labeling the first percentage of each bar (x_axis)
+        annotations.append(dict(xref='x', yref='y',
+                                x=xd[0] / 2, y=yd,
+                                text=str(xd[0]) + '%',
+                                font=dict(family='Arial', size=14, color='rgb(248, 248, 255)'),
+                                showarrow=False))
+        # labeling the first Likert scale (on the top)
+        if yd == y_data[-1]:
+            annotations.append(dict(xref='x', yref='paper',
+                                    x=xd[0] / 2, y=1.1,
+                                    text=top_labels[0],
+                                    font=dict(family='Arial', size=14, color='rgb(67, 67, 67)'),
+                                    showarrow=False))
+        space = xd[0]
+
+        for i in range(1, len(xd)):
+        # labeling the rest of percentages for each bar (x_axis)
+            annotations.append(dict(xref='x', yref='y',
+                                    x=space + (xd[i]/2), y=yd,
+                                    text=str(xd[i]) + '%',
+                                    font=dict(family='Arial', size=14, color='rgb(248, 248, 255)'),
+                                    showarrow=False))
+            # labeling the Likert scale
+            if yd == y_data[-1]:
+                annotations.append(dict(xref='x', yref='paper',
+                                        x=space + (xd[i]/2), y=1.1,
+                                        text=top_labels[i],
+                                        font=dict(family='Arial', size=14, color='rgb(67, 67, 67)'),
+                                        showarrow=False))
+            space += xd[i]
+
+    fig.update_layout(annotations=annotations)
+
+    fig = plot({'data' : fig}, output_type = 'div')
+    return render(request, 'chart.html', context = {'plot_div' : piechart, 'fig' : fig })
+
 
 def accessdenied (request):
     return render (request, 'accessdenied.html')

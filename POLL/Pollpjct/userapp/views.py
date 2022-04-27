@@ -1,7 +1,7 @@
-from asyncore import poll
 from django.shortcuts import redirect, render
 from adminapp.models import Candidate
 from .models import *
+from .forms import *
 from django.contrib.auth.models import User as BasicUser
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -101,19 +101,6 @@ def userlogin_process (request):        #id = BasicUser.id  / 여기 접근하�
     else: 
         return redirect('home')
 
-def wrong (request):
-    return render (request, "wrong.html")
-
-def deletewronginfo(request):
-    userid = request.user.id
-    srcBasicUser = BasicUser.objects.filter(id = userid)
-    todellogined = logineduseraccount.objects.filter(related_useraccount = srcBasicUser[0].id)      
-    todellogined.delete()       #정보가 맞든 틀리든 대응되는 객체가 있기만 해도 정보입력을 할 수 없게 위에서 해놓아서 지워야 정보입력까지 도달 가능 
-    return redirect ('userlogin')
-
-def alreadyvoted(request):
-    return render (request, "alreadyvoted.html")
-
 def pollprocess(request):
     if request.user.is_authenticated:
         gotlst = request.POST['choice']
@@ -145,9 +132,69 @@ def pollprocess(request):
     else: 
         return redirect('home')
 
+def poll_detail (request, id):
+    if request.user.is_authenticated:
+        #디테일 전달 파트 
+        specPoll = Poll_Cases.objects.filter(id = id)
+        specCan = Candidate.objects.filter(Poll_Case_id = specPoll[0].id).order_by('CandidateNum')
+
+        #인증 파트 
+        srcBasicUser = BasicUser.objects.filter(id = request.user.id)        #무조건 있음. 오류X / 1
+        srclogied = logineduseraccount.objects.filter(related_useraccount = srcBasicUser[0].id)        #무조건 있음 오류 X
+        srcuserac = useraccount.objects.filter(poll_case = specPoll[0].id, name = srclogied[0].name, sex = srclogied[0].sex, birth = srclogied[0].birth, address = srclogied[0].address, password = srclogied[0].password, ifvoted = False)        
+        if srcuserac.exists():
+            return render (request, "poll_deatil.html", {'pollcase' : specPoll[0], 'Candidates' : specCan})
+        else:
+            return redirect('wrong')
+    else: 
+        return redirect('home')
+        
+def alreadyvoted(request):
+    return render (request, "alreadyvoted.html")
+
+def wrong (request):
+    return render (request, "wrong.html")
+
+def deletewronginfo(request):
+    userid = request.user.id
+    srcBasicUser = BasicUser.objects.filter(id = userid)
+    todellogined = logineduseraccount.objects.filter(related_useraccount = srcBasicUser[0].id)      
+    todellogined.delete()       #정보가 맞든 틀리든 대응되는 객체가 있기만 해도 정보입력을 할 수 없게 위에서 해놓아서 지워야 정보입력까지 도달 가능 
+    return redirect ('userlogin')#
+
+###지워라 
+def example(request):
+    return render(request, "example.html")
+
+def fileUpload(request):
+    if request.user.is_autenticated:    
+        if request.method == "POST":        #POST or POST.get
+            srcBasicUser = BasicUser.objects.filter(id = request.user.id)
+            srclogined = logineduseraccount.objects.filter(related_useraccount = srcBasicUser[0])
+            related_loginedaccount = srclogined[0]
+            title = request.POST['title']
+            img = request.FILES['imgfile']
+            fileupload = logineduserpic(
+                related_loginedaccount = related_loginedaccount,
+                title = title,
+                imgfile = img,
+            )
+            fileupload.save()
+            return redirect ('home')
+
+        else:
+            fileuploadForm  = FileUploadForm
+            context = {
+                'fileuploadForm' : fileuploadForm,
+            }
+            return render(request, 'fileupload.html', context)
+    else:
+        return redirect('home')
+
 def end (request):
     if request.user.is_authenticated:
         logout(request)
         return render (request, 'end.html')
+
     else:
         return redirect ('home')

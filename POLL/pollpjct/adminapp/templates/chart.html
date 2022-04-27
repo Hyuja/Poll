@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load account %}
+
+
+{% block title %}
+<link href="{% static 'css/chart.css' %}" rel="stylesheet">
+<title>Poll Result : chart</title>
+{% endblock %}
+
+{% block content %}
+<div>
+    <br><br><br>
+    <h3>Poll Result : chart</h3>
+    <br>
+    <div class = "chart">
+        {% autoescape off %}
+            {{ plot_div }}
+        {% endautoescape %}
+    </div>
+    <div class = "chart">
+    {% autoescape off %}
+        {{ fig }}
+    {% endautoescape %}
+    </div>
+</div>
+{% endblock %}

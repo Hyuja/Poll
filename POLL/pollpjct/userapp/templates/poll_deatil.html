@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load account %}
+<!-- pollcase, Candidates -->
+{% block title %}
+<title>{{pollcase.poll_case_num}} | {{pollcase.poll_name}}</title>
+
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+    {% for Candidate in Candidates %}
+
+        {{Candidate.CandidateNum}} | {{Candidate.side}} | {{Candidate.CandidateName}} 
+
+        {% if Candidate.CandidatePic %}
+            <img src = "{{Candidate.CandidatePic.url}}" style= "width : 200px; height : 200px ;" alt = "">
+        {% endif %}
+        
+        <br><br>
+    {% endfor %}
+<br><br><br>
+{% endblock %}
