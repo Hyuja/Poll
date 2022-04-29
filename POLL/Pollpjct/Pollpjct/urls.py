@@ -32,7 +32,4 @@ urlpatterns = [
     path('adminaccess/PollResult/chart<str:id>', adv.chart, name = "chart"),
     path('adminaccess/accessdenied', adv.accessdenied, name = "accessdenied"),
     
-    ####제발 지워라 
-    path('example/', usv.example, name = "example"),
-    
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
