@@ -512,3 +512,74 @@ PollResult.html (views에서 정렬한 채로 전달받기 떄문에 특별한 �
  
 <img width="1100" alt="Screen Shot 2022-04-27 at 23 19 16" src="https://user-images.githubusercontent.com/96364048/165540073-19a7c2b6-1e11-4345-a4a9-969ba0702f1c.png">
 
+<br/>
+
+* * * * 
+
+<br/>
+
+## D18 2022/04/28 : pltly horizontal chart, poll 로직 약간 변경<br/>
+* plotly horizontal chart는 pie chart 에 비해 정적이여서(20대, 30대... ~70대 까지로 y_data가 정해져 있기 떄문) 노가다가 좀 있었음 <br/>
+
+~~~python
+top_labels = labels #pie chart 와 라벨 같음 (ex. 1 기본소득당 이성준 
+
+y_data = ['70대 이상', '60대', '50대', '40대', '30대', '20대<br>10대 포함']     #fiexed field
+
+x_data = [[], [], [], [], [], []]
+#나이 구하기  
+y20 =  datetime.date.today() - relativedelta(years = 20) + relativedelta(days = 1)
+o20 = y20 - relativedelta(years = 10) - relativedelta(days = 1)
+y30 = o20 + relativedelta(days = 1)
+#···반복 생략
+o60 = y60 - relativedelta(years = 10) - relativedelta(days = 1)
+y70 = o60 + relativedelta(days = 1)
+o70 = y70 - relativedelta(years = 100)
+
+yearlyvote = []
+uc2 = useraccount.objects.filter(ifvoted = True, birth__range = [o20, y20])    
+#···반복 생략
+uc7 = useraccount.objects.filter(ifvoted = True, birth__range = [o70, y70])
+
+yearlyvote.append(uc2.count())
+#···반복 생략
+yearlyvote.append(uc7.count())
+
+for c in can:
+    u2 = useraccount.objects.filter(ifvoted = True, birth__range = [o20, y20], voteresult = c.CandidateNum)
+    x_data[5].append(round((u2.count()/yearlyvote[0])*100, 1))
+#···반복 생략
+for c in can:
+    u7 = useraccount.objects.filter(ifvoted = True, birth__range = [o70, y70], voteresult = c.CandidateNum)
+    x_data[0].append(round((u7.count()/yearlyvote[5])*100, 1))
+
+#밑은 plotly / horizontal bar chart / color palette for bar chart 디자인 요소 그대로 가져옴
+~~~
+
+<br/>
+
+* 연령대 구해서 datetime 범위로 filter하고 비율로 표현하는 로직이 조금 귀찮았음 <br/><br/>
+
+* 위의 pie chart 는 원 모양으로 전체 크기가 정해져 있어서 value의 합이 100을 넘어도 알아서 백분율로 나타내줬지만 이 horizontal bar chart 는 100을 넘어가면 <br/>
+
+<img width="1100" alt="Screen Shot 2022-04-28 at 19 01 18" src="https://user-images.githubusercontent.com/96364048/165728722-c0e93a01-ca6d-45b1-9ebf-7d2c6fc9c687.png">
+
+<br/>
+
+처럼 넘어가버려서 백분율로 환산하고 전달해야하는 차이점이 있었음 
+
+<br/><br/>
+
+* 지도로 시각화하는 것도 하려 했으나 json 떄문에 찍먹만 하고 보류.
+
+<br/>
+
+* * * *
+
+<br/>
+
+## D19 2022/04/29 : 투표 로직 약간 변경, admin action (trim, offer identical account) <br/>
+
+* 전에는 한 페이지에서 모든 투표, 현재는 각 투표 케이스별로 각 페이지에서 투표. 콥보버튼으로 선택하고 버튼으로 제출, 
+
+
