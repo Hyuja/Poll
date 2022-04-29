@@ -12,7 +12,7 @@ class useraccount (models.Model):
     address = models.CharField(max_length = 100)
     password = models.CharField(max_length = 120)       
     ifvoted = models.BooleanField(default = False)      
-    voteresult = models.CharField(max_length = 1, default = "0")
+    voteresult = models.CharField(max_length = 5, null = True, blank = True, default = "")
     etc = models.TextField(null = True, blank = True)
     #pub_date = models.DateTimeField('date published',  null = True, blank = True)
 

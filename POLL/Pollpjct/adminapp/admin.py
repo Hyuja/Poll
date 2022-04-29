@@ -18,7 +18,7 @@ class CandidateInline(admin.TabularInline):
     extra = 1
 
 class Poll_CasesAdmin(admin.ModelAdmin):
-    list_display = ['poll_case_num', 'poll_name', 'poll_status', 'id']     
+    list_display = ['poll_case_num', 'poll_name', 'poll_status', 'take_endpic','id']     
     inlines = [CandidateInline]
 
 admin.site.register(Poll_Cases, Poll_CasesAdmin)

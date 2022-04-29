@@ -19,12 +19,13 @@ urlpatterns = [
     path('signin/', usv.userlogin, name = "userlogin"),     #Template O / 위에서 버튼 눌렀을떄 가는 페이지
     path('poll/', usv.userlogin_process, name = "poll"),
     path('poll/pages=<str:id>', usv.poll_detail, name = "poll_detail"),
-    path('pollprocess/', usv.pollprocess, name = "pollprocess"),        #Template X, Redirect 'end'/ 투표 로직 
+    path('pollprocess/<str:id>', usv.pollprocess, name = "pollprocess"),        #Template X, Redirect 'end'/ 투표 로직 
     path('end/', usv.end, name = "end"),        #사진까지 다 찍고 투표 끝났을떄 
     path('alreadyvoted/', usv.alreadyvoted, name = "alreadyvoted"),
     path('wrong/', usv.wrong, name = "wrong"),       #Template O /로그인 실패하면 가는 페이지
     path('deletewronginfo/', usv.deletewronginfo, name = "deletewronginfo"),
     path('fileupload/', usv.fileUpload, name = "fileupload"),
+    path('notrequired/', usv.notrequired, name = "notrequired"),
 
     #adminapp
     path('adminaccess/PollResult', adv.PollResult, name = "PollResult"),         #Template O / Poll Result Visualization 

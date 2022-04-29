@@ -19,5 +19,19 @@
         </div>
         <br><br>
     {% endfor %}
+    <form method =  "POST" action = "{% url 'pollprocess' pollcase.id%}"> 
+        {% csrf_token %}
+        <div>
+        <select name="choice" >
+            <option value="none">=== 선택 ===</option>
+            {% for Candidate in Candidates %}
+            <option value= "{{Candidate.id}}">{{Candidate.CandidateNum}} | {{Candidate.side}} | {{Candidate.CandidateName}}</option>
+            {% endfor %}
+        </select>
+        </div>
+        <br><br>
+        
+        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+    </form>
 <br><br><br>
 {% endblock %}

@@ -51,11 +51,11 @@ def userlogin_process (request):        #id = BasicUser.id  / 여기 접근하�
         userid = request.user.id
         srcBasicUser = BasicUser.objects.filter(id = userid)        #무조건 있음. 오류X / 1
 
-        gotname = request.POST.get('name')
-        gotsex = request.POST.get('sex')
-        gotbirth = request.POST.get('birth')
-        gotaddress = request.POST.get('address')
-        gotpassword = request.POST.get('password')
+        gotname = request.POST.get('name').strip()
+        gotsex = request.POST.get('sex').strip()
+        gotbirth = request.POST.get('birth').strip()
+        gotaddress = request.POST.get('address').strip()
+        gotpassword = request.POST.get('password').strip()
 
         new_logined = logineduseraccount()
         new_logined.related_useraccount = srcBasicUser[0]
@@ -101,7 +101,7 @@ def userlogin_process (request):        #id = BasicUser.id  / 여기 접근하�
     else: 
         return redirect('home')
 
-def pollprocess(request):
+def pollprocess(request, id):
     if request.user.is_authenticated:
         gotlst = request.POST['choice']
         choicelst = list(map(int, gotlst.split()))        #Candidate id 
@@ -112,24 +112,29 @@ def pollprocess(request):
         srcuseraccount = useraccount.objects.filter(name = srclogined[0].name, sex = srclogined[0].sex, birth = srclogined[0].birth, address = srclogined[0].address, password = srclogined[0].password, ifvoted = False)
         #표 늘어나는 과정 & ifvoted = True
         chosenCandidate = Candidate.objects.filter(id = -1)
-        
-        for p in choicelst:
-            chosenCandidate = chosenCandidate | Candidate.objects.filter(id = p)
+        if srcuseraccount.exists():
+            for p in choicelst:
+                chosenCandidate = chosenCandidate | Candidate.objects.filter(id = p)
 
-        for q in range(0, len(chosenCandidate), 1):
-            chosenpollcase = Poll_Cases.objects.filter(id = -1)
-            chosenCandidate[q].votes  = chosenCandidate[q].votes + 1
-            chosenCandidate[q].save()  
-            chosenpollcase = chosenCandidate[q].Poll_Case_id
-            votedusc = useraccount.objects.filter(name = srclogined[0].name, sex = srclogined[0].sex, birth = srclogined[0].birth, address = srclogined[0].address, password = srclogined[0].password, ifvoted = False, poll_case = chosenpollcase)
-            votedus = votedusc[0]
-            votedus.ifvoted = True
-            votedus.voteresult = chosenCandidate[q].CandidateName
-            votedus.save()
-        #몇번 투표했는지 메세지 띄워주기 
-        
-        return redirect ('end')
+            for q in range(0, len(chosenCandidate), 1):
+                chosenpollcase = Poll_Cases.objects.filter(id = -1)
+                chosenCandidate[q].votes  = chosenCandidate[q].votes + 1
+                chosenCandidate[q].save()  
+                chosenpollcase = chosenCandidate[q].Poll_Case_id
+                votedusc = useraccount.objects.filter(name = srclogined[0].name, sex = srclogined[0].sex, birth = srclogined[0].birth, address = srclogined[0].address, password = srclogined[0].password, ifvoted = False, poll_case = chosenpollcase)
+                votedus = votedusc[0]
+                votedus.ifvoted = True
+                votedus.voteresult = chosenCandidate[q].CandidateNum
+                votedus.save()
+            #몇번 투표했는지 메세지 띄워주기 
+            srcPollCase = Poll_Cases.objects.filter(id = id)
 
+            if srcPollCase[0].take_endpic:
+                return redirect ('fileupload')
+            else: 
+                return redirect ('userlogin')
+        else:
+            return redirect ('alreadyvoted')
     else: 
         return redirect('home')
 
@@ -168,8 +173,7 @@ def example(request):
     return render(request, "example.html")
 
 def fileUpload(request):
-    if request.user.is_autenticated:    
-        
+    if request.user.is_authenticated:            
         if request.method == "POST":        #POST or POST.get
             srcBasicUser = BasicUser.objects.filter(id = request.user.id)
             srclogined = logineduseraccount.objects.filter(related_useraccount = srcBasicUser[0])
@@ -190,8 +194,11 @@ def fileUpload(request):
                 'fileuploadForm' : fileuploadForm,
             }
             return render(request, 'fileupload.html', context)
-    else:
+    else: 
         return redirect('home')
+
+def notrequired(request):
+    return render (request, 'notrequired.html')
 
 def end (request):
     if request.user.is_authenticated:

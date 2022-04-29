@@ -12,37 +12,31 @@
 
 {% if user.is_authenticated %}
   <div align = "middle">
-    <div class = "container">
-      <form method = "POST" action = "{% url 'pollprocess' %}">  
-      
-        {% for POLL_CASE in POLL_CASES %}
-          <h1 class="mt-4">{{POLL_CASE.poll_name}}</h1><br>
-          
-          {% csrf_token %}
-          
-            {% for Candidate in Candidates %} 
-              <!-- 선거별로 후보 분류 -->
-              {% if Candidate.Poll_Case_id == POLL_CASE %}
-                <div class="row row-cols-1 row-cols-md-3 gx-4">
-                  <div class="col themed-grid-col">{{Candidate.CandidateNum}}</div>
-                  <div class="col themed-grid-col">{{Candidate.side}}</div>
-                  <div class="col themed-grid-col">{{Candidate.CandidateName}}</div>
-                </div>
-              {% endif %}
-            {% endfor %}
-            <br>
-            <a href = "{% url 'poll_detail' POLL_CASE.id %}">..more</a>
-            <hr>
-            <br>
-        {% endfor %}
-        <div class="input-group mb-3">
-          <span class="input-group-text" id="inputGroup-sizing-default">{{POLL_CASE.poll_name}}</span>
-          <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name = "choice">
-        </div>
-        <!-- 버튼 하나로 POLL_CASES 수만큼 정보 전달  -->
-        <br>
-        <button type="submit" class="btn btn-primary btn-lg">Submit</button>   
-      </form> 
+    <div class = "container">      
+      {% for POLL_CASE in POLL_CASES %}
+        <h1 class="mt-4">{{POLL_CASE.poll_name}}</h1><br>
+        
+        {% csrf_token %}
+        
+          {% for Candidate in Candidates %} 
+            <!-- 선거별로 후보 분류 -->
+            {% if Candidate.Poll_Case_id == POLL_CASE %}
+              <div class="row row-cols-1 row-cols-md-3 gx-4">
+                <div class="col themed-grid-col">{{Candidate.CandidateNum}}</div>
+                <div class="col themed-grid-col">{{Candidate.side}}</div>
+                <div class="col themed-grid-col">{{Candidate.CandidateName}}</div>
+              </div>
+            {% endif %}
+          {% endfor %}
+          <br>
+          <a href = "{% url 'poll_detail' POLL_CASE.id %}">..more</a>
+          <hr>
+          <br>
+      {% endfor %}  
+      <br>   
+      <form action = "{% url 'end' %}">
+        <button type="submit" class="btn btn-primary btn-sm">END</button>
+      </form>
     </div> 
   </div>
 {% endif %}
