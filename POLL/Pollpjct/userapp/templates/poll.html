@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load account %}
+{% load static %}
+<!-- ====================================================   -->
+{% block title %}
+<title>Poll</title>
+<link href="{% static 'css/grid.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<main class = "py-4"><br><br>
+
+{% if user.is_authenticated %}
+  <div align = "middle">
+    <div class = "container">      
+      {% for POLL_CASE in POLL_CASES %}
+        <h1 class="mt-4">{{POLL_CASE.poll_name}}</h1><br>
+        
+        {% csrf_token %}
+        
+          {% for Candidate in Candidates %} 
+            <!-- 선거별로 후보 분류 -->
+            {% if Candidate.Poll_Case_id == POLL_CASE %}
+              <div class="row row-cols-1 row-cols-md-3 gx-4">
+                <div class="col themed-grid-col">{{Candidate.CandidateNum}}</div>
+                <div class="col themed-grid-col">{{Candidate.side}}</div>
+                <div class="col themed-grid-col">{{Candidate.CandidateName}}</div>
+              </div>
+            {% endif %}
+          {% endfor %}
+          <br>
+          <a href = "{% url 'poll_detail' POLL_CASE.id %}">..more</a>
+          <hr>
+          <br>
+      {% endfor %}  
+      <br>   
+      <form action = "{% url 'end' %}">
+        <button type="submit" class="btn btn-primary btn-sm">END</button>
+      </form>
+    </div> 
+  </div>
+{% endif %}
+
+{% if user.is_anonymous %}
+  <div align = "middle">
+    Please Login to access this page
+  </div>
+{% endif %}
+</main>
+
+{% endblock %}

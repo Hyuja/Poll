@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load account %}
+<!-- pollcase, Candidates -->
+{% block title %}
+<title>{{pollcase.poll_case_num}} | {{pollcase.poll_name}}</title>
+
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+    {% for Candidate in Candidates %}
+        <div style= "background-color: {{Candidate.CandidateColor}};" >
+            {{Candidate.CandidateNum}} | {{Candidate.side}} | {{Candidate.CandidateName}} 
+
+            {% if Candidate.CandidatePic %}
+                <img src = "{{Candidate.CandidatePic.url}}" style= "width : 200px; height : 200px ;" alt = "">
+            {% endif %}
+        </div>
+        <br><br>
+    {% endfor %}
+    <form method =  "POST" action = "{% url 'pollprocess' pollcase.id%}"> 
+        {% csrf_token %}
+        <div>
+        <select name="choice" >
+            <option value="none">=== 선택 ===</option>
+            {% for Candidate in Candidates %}
+            <option value= "{{Candidate.id}}">{{Candidate.CandidateNum}} | {{Candidate.side}} | {{Candidate.CandidateName}}</option>
+            {% endfor %}
+        </select>
+        </div>
+        <br><br>
+        
+        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+    </form>
+<br><br><br>
+{% endblock %}
