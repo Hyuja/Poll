@@ -119,7 +119,7 @@ keyring
 kiwisolver
 lazy-object-proxy 
 libarchive-c 
-llvmlite==0.37.0
+llvmlite==0.38.0
 locket==0.2.1
 lxml 
 MarkupPy==1.14
