@@ -135,7 +135,7 @@ msgpack
 multipledispatch 
 munkres==1.1.4
 mypy-extensions==0.4.3
-mysqlclient==2.1.0
+mysqlclient==8.0.29
 navigator-updater==0.2.1
 nbclassic 
 nbclient 
