@@ -94,7 +94,11 @@ def chart(request, id):
         yearlyvote.append(uc6.count())
         yearlyvote.append(uc7.count())
 
+        print(y30)
+        print(o30)
+
         print(yearlyvote)
+        
         for c in can:
             u2 = useraccount.objects.filter(ifvoted = True, birth__range = [o20, y20], voteresult = c.CandidateNum)
             x_data[5].append(round((u2.count()/yearlyvote[0])*100, 1))
