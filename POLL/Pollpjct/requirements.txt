@@ -41,7 +41,6 @@ chardet
 charset-normalizer
 click==8.0.3
 cloudpickle 
-clyent==1.2.2
 colorama 
 contextlib2 
 cookiecutter 
