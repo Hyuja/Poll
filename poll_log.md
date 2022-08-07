@@ -104,7 +104,7 @@ CandidateEdit_edit.html
 <br/>
 adminapp/views.py
 
-~~~~python 
+~~~python 
 def CandidateEdit(request):
     Candidates = Candidate.objects.all()
     return render (request, "CandidateEdit.html", {'Candidates' : Candidates})
