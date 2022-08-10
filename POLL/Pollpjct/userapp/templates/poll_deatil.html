@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load account %}
+{% load custom_tags %}
+
 <!-- pollcase, Candidates -->
 {% block title %}
 <title>{{pollcase.poll_case_num}} | {{pollcase.poll_name}}</title>
@@ -10,20 +12,42 @@
 {% block content %}
 <br><br><br>
     {% for Candidate in Candidates %}
-        <div style= "background-color: {{Candidate.CandidateColor}};" >
-            {{Candidate.CandidateNum}} | {{Candidate.side}} | {{Candidate.CandidateName}} 
+        {% if Candidate.content %}
+        <div style= "vertical-align: middle; height: fit-content; border-radius: 15px; margin-left: 10%; margin-right: 10%; background-color: {{Candidate.CandidateColor}};">    
+            <div style="float: left; margin-left: 7%; ">
+                <h3>{{Candidate.CandidateNum}} | {{Candidate.side}} | {{Candidate.CandidateName}}</h3>
 
-            {% if Candidate.CandidatePic %}
-                <img src = "{{Candidate.CandidatePic.url}}" style= "width : 200px; height : 200px ;" alt = "">
-            {% endif %}
+                {% if Candidate.CandidatePic %}
+                    <img src = "{{Candidate.CandidatePic.url}}" style= "width : 180px; height : 180px; margin-top: 2.5%;" alt = "">
+                {% endif %}
+            </div>
+            
+            <div>
+                <iframe width="448" height="252" src="{{Candidate.content | content_link}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="margin-top: 2.5%"></iframe>
+                <br><br>
+                <h4>{{Candidate.content | content_slogan}}</h4>
+                <br>
+            </div>
         </div>
         <br><br>
+        {% else %}
+        <div style= "height: fit-content; margin-left: 10%; margin-right: 10%; border-radius: 15px; background-color: {{Candidate.CandidateColor}}; ">    
+            <br>
+            <h3>{{Candidate.CandidateNum}} | {{Candidate.side}} | {{Candidate.CandidateName}}</h3>
+            {% if Candidate.CandidatePic %}
+                <img src = "{{Candidate.CandidatePic.url}}" style= "width : 180px; height : 180px;" alt = "">
+            {% endif %}
+            <br><br>
+        </div>
+        <br><br>
+        {% endif %}
     {% endfor %}
+    
     <form method =  "POST" action = "{% url 'pollprocess' pollcase.id%}"> 
         {% csrf_token %}
         <div>
         <select name="choice" >
-            <option value="none">=== 선택 ===</option>
+            <option value="none">===== 선택 =====</option>
             {% for Candidate in Candidates %}
             <option value= "{{Candidate.id}}">{{Candidate.CandidateNum}} | {{Candidate.side}} | {{Candidate.CandidateName}}</option>
             {% endfor %}
