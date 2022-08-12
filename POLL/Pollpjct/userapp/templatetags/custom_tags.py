@@ -25,3 +25,16 @@ def content_slogan(content):
     except:
         slogan = ""
     return slogan
+
+@register.filter
+def brTag(slogan):
+    splitted = slogan.split('<br>')
+    for i in range(0, len(splitted), 1):
+        splitted[i] = splitted[i].strip()
+        if splitted[i] == "": splitted.remove(splitted[i])
+
+    return splitted
+
+@register.simple_tag(name="DoubleIndex")
+def DoubleIndex(to_index, p, q):
+    return to_index[p][q]

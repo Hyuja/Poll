@@ -15,6 +15,7 @@
         {% if Candidate.content %}
         <div style= "vertical-align: middle; height: fit-content; border-radius: 15px; margin-left: 10%; margin-right: 10%; background-color: {{Candidate.CandidateColor}};">    
             <div style="float: left; margin-left: 7%; ">
+                <br><br><br>
                 <h3>{{Candidate.CandidateNum}} | {{Candidate.side}} | {{Candidate.CandidateName}}</h3>
 
                 {% if Candidate.CandidatePic %}
@@ -23,9 +24,16 @@
             </div>
             
             <div>
-                <iframe width="448" height="252" src="{{Candidate.content | content_link}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="margin-top: 2.5%"></iframe>
+                {% if Candidate.content|content_link %}
+                    <iframe width="448" height="252" src="{{Candidate.content|content_link}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="margin-top: 2.5%"></iframe>
+                {% endif %}
                 <br><br>
-                <h4>{{Candidate.content | content_slogan}}</h4>
+                {% if Candidate.content|content_slogan %}
+                    {% for ln in Candidate.content|content_slogan|brTag %}
+                        <h4>{{ln}}</h4>
+                        <br>
+                    {% endfor %}
+                {% endif %}
                 <br>
             </div>
         </div>
@@ -58,4 +66,8 @@
         <button type="submit" class="btn btn-primary btn-lg">Submit</button>
     </form>
 <br><br><br>
+
+
+
 {% endblock %}
+

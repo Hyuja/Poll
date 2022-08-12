@@ -20,16 +20,29 @@ def CandidateEdit(request):
     return render (request, "CandidateEdit.html", {'Candidates' : Candidates})
 
 def PollResult(request):
+    
     if request.user.is_authenticated and request.user.is_staff:
         POLL_CASES = Poll_Cases.objects.all().order_by('poll_case_num')
         Candidates = Candidate.objects.all().order_by('Poll_Case_id')
-        
+        allvotes = []; rates = []
         alllst = Candidate.objects.filter(id = -1)
         for pollcase in POLL_CASES:
+            votes = 0; rate = []
             canlst = Candidate.objects.filter(id = -1)
             canlst = canlst | Candidate.objects.filter(Poll_Case_id = pollcase.id).order_by('-votes')       #votes 올림차순. canlst[0]이 최다득표임 
             alllst = alllst | canlst
-        return render (request, "PollResult.html", {"POLL_CASES" : POLL_CASES, "alllst" : alllst})
+            allCan = Candidate.objects.filter(Poll_Case_id = pollcase.id).values()
+
+            for i in range(0, len(allCan), 1):
+                votes += allCan[i].get('votes')
+            allvotes.append(votes)
+            for i in range(0, len(allCan), 1):
+                rate.append(round(((allCan[i].get('votes'))/votes)*100, 2))
+            rate.sort(reverse=True)
+            rates.append(rate)
+            
+
+        return render (request, "PollResult.html", {"POLL_CASES" : POLL_CASES, "alllst" : alllst, 'rates':rates, 'allvotes':allvotes})
     else:
         return redirect ('accessdenied')
 

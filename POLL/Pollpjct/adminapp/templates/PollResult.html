@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load account %}
+{% load custom_simple_tags %}
 
 {% block title %}
 <title>Poll Result</title>
@@ -8,24 +9,23 @@
 
 {% block content %}
 <br><br><br>
-
     {% for POLL_CASE in POLL_CASES %}
-    <h1 class="mt-4">{{POLL_CASE.poll_name}}</h1>
+    <h1 class="mt-4">{{POLL_CASE.poll_name}} 결과</h1>
     <br>
+    
     {% csrf_token %}
         {% for Candidate in alllst %} 
             <!-- 선거별로 후보 분류 -->
             {% if Candidate.Poll_Case_id == POLL_CASE %}
                 {% if Candidate %}
-                    {{Candidate.CandidateNum}} | {{Candidate.side}} | {{Candidate.CandidateName}} 
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h4 style="display: inline;">기호 {{Candidate.CandidateNum}}번 {{Candidate.side}} {{Candidate.CandidateName}}</h4> &nbsp;&nbsp; 득표수 : {{Candidate.votes}} | 득표율 : {% DoubleIndex forloop.parentloop.counter0 allvotes Candidate.votes %}%
                     <br>
                 {% endif %}
             {% endif %}
         {% endfor %}
         <br>
         <a href = "{% url 'chart' POLL_CASE.id %}">..more</a>
+        <br><br>
     {% endfor %}
-
-<br><br><br><br>
+<br><br>
 {% endblock %}
-s
