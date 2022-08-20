@@ -51,10 +51,13 @@ def chart(request, id):
         pollcase = Poll_Cases.objects.filter(id = id)
         can = Candidate.objects.filter(Poll_Case_id = pollcase[0].id).order_by('-votes')
         
-        colors = []
-        for ca in can:
-            colors.append(ca.CandidateColor)
+        colors = [ca.CandidateColor for ca in can]
+        randColor = ['rgba(220, 20, 60, 1)', 'rgba(255, 165, 0, 1)', 'rgba(255, 255, 0, 1)', 'rgba(0, 128, 0, 1)', 'rgb(0, 255, 127)', 'rgb(0,206,209)', 'rgb(127,255,212)', 'rgb(100,149,237)', 'rgb(0,0,128)', 'rgb(218,112,214)']
+        print(colors)
         
+        for i in range(0, len(colors), 1):
+            if colors[i] == "rgba(, , , )":
+                colors[i] = random.choice(randColor)
         #======================================================================================
         
         ##PIE CHART
