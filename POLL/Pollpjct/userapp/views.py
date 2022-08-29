@@ -168,7 +168,6 @@ def deletewronginfo(request):
     todellogined.delete()       #정보가 맞든 틀리든 대응되는 객체가 있기만 해도 정보입력을 할 수 없게 위에서 해놓아서 지워야 정보입력까지 도달 가능 
     return redirect ('userlogin')#
 
-    return render(request, "example.html")
 
 def fileUpload(request):
     if request.user.is_authenticated:            

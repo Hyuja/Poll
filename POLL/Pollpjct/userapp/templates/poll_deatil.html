@@ -51,7 +51,7 @@
         {% endif %}
     {% endfor %}
     
-    <form method =  "POST" action = "{% url 'pollprocess' pollcase.id%}"> 
+    <form method =  "POST" action = "{% url 'pollprocess' pollcase.id %}"> 
         {% csrf_token %}
         <div>
         <select name="choice" >

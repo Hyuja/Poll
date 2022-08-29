@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import *
-from userapp.models import *
-
+from userapp.models import * 
+from django.contrib.auth.models import User, Group
 
 # @admin.register(Poll_Cases)
 # class Poll_CasesAdmin(admin.ModelAdmin):
@@ -22,3 +22,7 @@ class Poll_CasesAdmin(admin.ModelAdmin):
     inlines = [CandidateInline]
 
 admin.site.register(Poll_Cases, Poll_CasesAdmin)
+admin.site.unregister(User)
+admin.site.unregister(Group)
+# admin.site.unregister(SocialToken)
+# admin.site.unregister(SocialApp)
