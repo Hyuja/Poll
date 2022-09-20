@@ -4,6 +4,10 @@
 
 <a href = "https://github.com/sungjun4403/Poll/blob/main/poll_%EC%B5%9C%EC%A2%85%EC%95%88.pdf"> 🌟 프로젝트 문서</a>
 
+<a href = "https://github.com/sungjun4403/Poll/blob/main/poll_%EC%B5%9C%EC%A2%85%EC%95%88.pdf"> Use Case</a>
+
+<a href = "https://github.com/sungjun4403/Poll/blob/main/poll_%EC%B5%9C%EC%A2%85%EC%95%88.pdf"> 시연 영상</a>
+
 </br>
 
 서비스 순서: 
