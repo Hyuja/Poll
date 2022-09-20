@@ -6,7 +6,7 @@
 
 <a href = "https://github.com/sungjun4403/Poll/blob/main/%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C.md"> ⏯️ 시연 영상</a>
 
-<a href = "https://github.com/sungjun4403/Poll/blob/main/poll_%EC%B5%9C%EC%A2%85%EC%95%88.pdf"> Use Case</a>
+<a href = "https://github.com/sungjun4403/Poll/tree/main/UseCases"> Use Case</a>
 
 </br>
 
