@@ -21,6 +21,8 @@
 
 <a href = "https://github.com/sungjun4403/Poll/tree/main/UseCases"> 📋 Use Case</a>
 
+<a href = "https://github.com/sungjun4403/Poll/blob/main/poll_log.md"> 📋 개발 로그 및 이슈 기록</a>
+
 </br> 
 
 __서비스 순서:__
