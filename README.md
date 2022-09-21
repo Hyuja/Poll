@@ -35,13 +35,13 @@ __서비스 순서:__
 
 <h3> 소셜로그인, 정보입력 </h3>
 
-<img width="280" style = "float:right;" src="https://user-images.githubusercontent.com/96364048/191203383-e26597e1-86ae-434d-865f-ac9c925c37b2.png">'<img width="200" style = "float:left;" src="https://user-images.githubusercontent.com/96364048/191207990-e1c20f38-1a67-47ba-b9a5-565abd80e63b.png">
+<img width="280" style = "float:right;" src="https://user-images.githubusercontent.com/96364048/191203383-e26597e1-86ae-434d-865f-ac9c925c37b2.png">&ensp;<img width="200" style = "float:left;" src="https://user-images.githubusercontent.com/96364048/191207990-e1c20f38-1a67-47ba-b9a5-565abd80e63b.png">
 
 <br/>
 
 <h3> 투표 </h3> 
 
-<img width="220" style = "float:right;" src="https://user-images.githubusercontent.com/96364048/191209660-e10c69a3-cf87-41ea-b58c-806f255fee93.png">'<img width="150" style = "float:left;" src="https://user-images.githubusercontent.com/96364048/191210959-cec074d2-a9c5-4da7-9a6b-ee7e40b3149a.png">
+<img width="220" style = "float:right;" src="https://user-images.githubusercontent.com/96364048/191209660-e10c69a3-cf87-41ea-b58c-806f255fee93.png">&ensp;<img width="150" style = "float:left;" src="https://user-images.githubusercontent.com/96364048/191210959-cec074d2-a9c5-4da7-9a6b-ee7e40b3149a.png">
 
 <br/>
 
