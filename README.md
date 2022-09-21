@@ -12,7 +12,6 @@
 - <a href="https://code.visualstudio.com/" title="Visual Studio Code"><img src="https://github.com/get-icon/geticon/raw/master/icons/visual-studio-code.svg" alt="Visual Studio Code" width="30px" height="30px"></a>&nbsp;&nbsp;
 <a href="https://github.com" title="Github"><img src="https://user-images.githubusercontent.com/96364048/191507555-71f0f2b7-e275-4ab6-85ed-fb03247bdbda.png" alt="Github" width="30px" height="30px"></a>
 
-
 </br>
 
 <a href = "https://github.com/sungjun4403/Poll/blob/main/poll_%EC%B5%9C%EC%A2%85%EC%95%88.pdf"> 🌟 프로젝트 문서</a>
@@ -27,7 +26,11 @@ __서비스 순서:__
 - 유저 : 소셜로그인 → 정보입력 → 투표
 - 어드민 : 소셜로그인 → 명부 관리 / 시각화 자료 확인
 
+</br> 
+
 -----
+
+</br> 
 
 <h3> 소셜로그인, 정보입력 </h3>
 
