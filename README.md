@@ -23,6 +23,8 @@
 
 <a href = "https://github.com/sungjun4403/Poll/blob/main/poll_log.md"> 📋 개발 로그 및 이슈 기록</a>
 
+<a href = "https://github.com/sungjun4403/Poll/blob/main/Poll_Doc.md"> 📋 개선할 점 </a>
+
 </br> 
 
 프로젝트 목적 : __명부 전산화, 온라인 투표 구현, 투표 결과 시각화__
