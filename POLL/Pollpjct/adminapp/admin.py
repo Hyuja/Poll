@@ -22,7 +22,8 @@ class Poll_CasesAdmin(admin.ModelAdmin):
     inlines = [CandidateInline]
 
 admin.site.register(Poll_Cases, Poll_CasesAdmin)
-admin.site.unregister(User)
-admin.site.unregister(Group)
+
+# admin.site.unregister(User)
+# admin.site.unregister(Group)
 # admin.site.unregister(SocialToken)
 # admin.site.unregister(SocialApp)
