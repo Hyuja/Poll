@@ -1,9 +1,13 @@
-<h2> 개선할 점 </h2> 
+1.0.0 주요 기능 구현 완료 버전 
 
-</br>
+----
 
-- 정보입력 단계의 주소 입력에 Daum Postcode API등을 활용하여 유저의 입력 편의를 개선할 예정이다.
-- 어드민의 DB 관리 편의 개선을 위해 DB 수정 시간 기록 기능, 되돌리기 기능 등을 추가할 계획이다. 
-- ‘회원 정보 수정’ 기능을 추가 할 예정이다. 정보입력 과정에서 유저의 입력 오류를 해결하기 위함이다. 
-- 구글 외의 카카오, 네이버, 애플 등의 소셜로그인을 지원할 예정이다.
-- 개발 편의를 위해 useraccount, logineduserccount 등 DB 테이블 명의 클린 코드 작업을 진행할 계획이다.  
+1.0.1 투표 화면 css 변경
+
+----
+
+1.0.2 투표 화면에 유튜브 영상 및 공약 문구 삽입 기능 추가
+
+1.0.0, 1.0.2(최종)
+
+<img width="420" style="float:left" src="https://user-images.githubusercontent.com/96364048/191908514-5b5857f0-6af1-41e0-bb40-83f21af2a322.png">&ensp;<img width="420" style="float:right" src="https://user-images.githubusercontent.com/96364048/191908883-98108eb0-534a-42ed-9a78-8ad4d9b1dac1.png">
